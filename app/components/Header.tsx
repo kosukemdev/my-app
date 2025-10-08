@@ -14,7 +14,7 @@ export default function Header() {
       {/* サイト名 */}
 
       <h2 className="text-2xl font-bold ">
-        <Link href="/">Kousuke Masaki Portfolio</Link>
+        <Link href="/">Kosuke Masaki Portfolio</Link>
       </h2>
 
       {/* デスクトップナビ */}
@@ -36,12 +36,6 @@ export default function Header() {
           className="hover:text-yellow-500 transition-colors duration-300"
         >
           Works
-        </Link>
-        <Link
-          href="/contact"
-          className="hover:text-yellow-500 transition-colors duration-300"
-        >
-          Contact
         </Link>
       </nav>
 
@@ -89,13 +83,6 @@ export default function Header() {
           onClick={() => setIsOpen(false)}
         >
           Works
-        </Link>
-        <Link
-          href="/contact"
-          className="py-2 hover:text-yellow-500 transition-colors duration-300"
-          onClick={() => setIsOpen(false)}
-        >
-          Contact
         </Link>
       </nav>
     </header>

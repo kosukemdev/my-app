@@ -1,40 +1,43 @@
 // app/page.tsx (トップページ雛形)
 import Link from "next/link";
+import Image from "next/image";
+
+export const metadata = {
+  title: "Home | Kosuke Masaki Portfolio",
+  description: "トップページです。",
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen pt-16 flex flex-col items-center justify-center bg-[#0f172a] text-gray-100 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center text-gray-800 px-4">
       {/* Hero Section */}
       <section className="max-w-4xl w-full flex flex-col md:flex-row items-center gap-8">
         {/* 左カラム：テキスト */}
         <div className="flex-1">
           <p className="text-lg text-gray-400">Frontend Engineer</p>
           <h2 className="text-4xl md:text-5xl font-bold mt-2">正木 洸介</h2>
-          <p className="text-gray-300 mt-4 leading-relaxed">
+          <p className="text-gray-800 mt-4 leading-relaxed">
             Next.js / React / TypeScript / Tailwind / SWR / Zustand を使って
             Webアプリを開発中。
           </p>
           <div className="flex gap-4 mt-4">
             <Link href="/works">
-              <button className="px-6 py-2 bg-yellow-500 text-[#0f172a] font-semibold rounded hover:bg-yellow-400 transition">
+              <button className="px-6 py-2 bg-yellow-500 text-[#0f172a] font-semibold rounded hover:bg-yellow-400 transition cursor-pointer">
                 Worksを見る
-              </button>
-            </Link>
-            <Link href="/contact">
-              <button className="px-6 py-2 border border-gray-400 rounded hover:bg-gray-700 transition">
-                Contact
               </button>
             </Link>
           </div>
         </div>
         {/* 右カラム：プロフィール画像 */}
         <div className="flex-1 flex justify-center">
-          <div className="w-64 h-64 rounded-full bg-gray-700 overflow-hidden">
+          <div className="w-64 h-64">
             {/* ここにプロフィール画像を置く */}
-            <img
-              src="/profile.jpg"
+            <Image
+              src="/thumbnails/sample.png"
               alt="プロフィール"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover shadow-md rounded-full"
+              width={256}
+              height={256}
             />
           </div>
         </div>
@@ -48,7 +51,7 @@ export default function Home() {
             (skill) => (
               <span
                 key={skill}
-                className="px-3 py-1 bg-gray-800 rounded-full text-sm"
+                className="px-3 py-1 bg-gray-50 text-gray-800 rounded-full text-sm border border-gray-300"
               >
                 {skill}
               </span>
@@ -56,6 +59,6 @@ export default function Home() {
           )}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
