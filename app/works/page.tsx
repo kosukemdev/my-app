@@ -13,7 +13,7 @@ const projects = [
     slug: "blog-app",
     description: "記事のCRUD機能付きブログアプリ",
     reason: "記事の管理やデータ取得の仕組みを学ぶために作成",
-    tech: ["Next.js", "SWR", "Tailwind"],
+    tech: ["Next.js", "SWR", "Tailwind", "Zustand"],
     thumbnail: "/thumbnails/sample.png",
     demo: "/works/blog-app",
   },

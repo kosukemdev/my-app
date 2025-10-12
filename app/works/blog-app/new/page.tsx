@@ -1,97 +1,124 @@
 "use client";
 
-import Link from "next/link";
-import { mutate } from "swr";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+// shadcn/ui
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+import { X } from "lucide-react";
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
-  const router = useRouter();
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputTag, setInputTag] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // タグ追加
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 入力したキーがエンターで、かつ入力タグが空白でないとき
+    if (e.key === "Enter" && inputTag.trim() !== "") {
+      e.preventDefault();
+      
+      const newTags = inputTag
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag !== "");
 
-    const newPost = {
-      title,
-      content,
-      tags: tags.split(",").map((tag) => tag.trim()),
-    };
-
-    //APIにPOST
-    const res = await fetch("/works/blog-app/api", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newPost),
-    });
-
-    if (res.ok) {
-      //mutateでキャッシュを更新
-      mutate("/works/blog-app/api");
-
-      //フォームをリセットして一覧へ戻る
-      setTitle("");
-      setContent("");
-      router.push("/works/blog-app");
+      setTags((prev) => [...new Set([...prev, ...newTags])]);
+      setInputTag("");
     } else {
-      alert("投稿に失敗しました。");
+      return;
     }
   };
 
+  // タグ削除
+  const handleRemoveTag = (tag: string) => {
+    setTags(tags.filter((t) => t !== tag));
+  };
+
+  // フォーム送信
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log({
+      title,
+      content,
+      tags,
+    });
+  };
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">新規投稿ページ</h1>
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-bold">新規記事作成</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">タイトル</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            placeholder="記事タイトルを入力"
-            required
-          />
+      <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <div>
+            <label className="block font-medium mb-1">タイトル</label>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="記事タイトルを入力"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">
+              本文（Markdown対応）
+            </label>
+            <Textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Markdown形式で本文を入力"
+              rows={10}
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">
+              タグ（カンマ区切り）
+            </label>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="flex items-center bg-gray-200 text-gray-800 px-2 py-1 rounded-full text-sm"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveTag(tag)}
+                    className="ml-1 text-gray-500 hover:text-gray-700"
+                  >
+                    <X size={14} />
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            <Input
+              value={inputTag}
+              onChange={(e) => setInputTag(e.target.value)}
+              onKeyDown={handleAddTag}
+              placeholder="例: React,Next.js,Markdown"
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            投稿する
+          </Button>
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">本文</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full border px-3 py-2 rounded h-40"
-            placeholder="記事内容を入力"
-            required
-          ></textarea>
+        <div className="border rounded-lg p-4 bg-white overflow-auto prose max-w-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {content || "ここにMarkdownプレビューが表示されます。"}
+          </ReactMarkdown>
         </div>
-
-        <div>
-          <label className="block mb-1 font-medium">タグ</label>
-          <input
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-            className="w-full border p-2 rounded"
-            placeholder="タグをカンマ区切りで入力（例: tech, life）"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          投稿する
-        </button>
       </form>
-
-      <div className="mt-6">
-        <Link href="/works/blog-app" className="text-blue-500 hover:underline">
-          ← 一覧に戻る
-        </Link>
-      </div>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export default function Home() {
           </p>
           <div className="flex gap-4 mt-4">
             <Link href="/works">
-              <button className="px-6 py-2 bg-yellow-500 text-[#0f172a] font-semibold rounded hover:bg-yellow-400 transition cursor-pointer">
+              <button className="px-6 py-2 bg-[#918DB1] text-[#323b50] font-semibold rounded hover:bg-[#7787aa] hover:text-white transition cursor-pointer">
                 Worksを見る
               </button>
             </Link>

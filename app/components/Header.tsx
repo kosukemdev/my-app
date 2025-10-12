@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full px-4 py-4 flex items-center justify-between fixed top-0 left-0 bg-purple-900 text-gray-100 shadow-md z-50 ${isOpen ? "h-auto" : "h-16"}`}
+      className={`w-full px-4 py-4 flex items-center justify-between fixed top-0 left-0 bg-[#455698] text-gray-100 shadow-md z-50 ${isOpen ? "h-auto" : "h-16"}`}
     >
       {/* サイト名 */}
 
@@ -61,7 +61,7 @@ export default function Header() {
 
       {/* モバイルメニュー */}
       <nav
-        className={`absolute bg-purple-900 top-16 left-0 w-full flex flex-col items-center py-4 md:hidden transition-all duration-300 overflow-hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+        className={`absolute bg-[#455698] top-16 left-0 w-full flex flex-col items-center py-4 md:hidden transition-all duration-300 overflow-hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
         <Link
           href="/"

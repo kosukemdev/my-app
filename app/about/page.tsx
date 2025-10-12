@@ -70,7 +70,7 @@ export default function AboutPage() {
 
       {/* Profile */}
       <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-yellow-500 pl-3">
+        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
           Profile
         </h3>
         <p className="leading-relaxed text-gray-700">
@@ -87,7 +87,7 @@ export default function AboutPage() {
 
       {/* Skills */}
       <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-yellow-500 pl-3">
+        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
           Skills
         </h3>
         <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -114,7 +114,7 @@ export default function AboutPage() {
 
       {/* Mindset */}
       <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-yellow-500 pl-3">
+        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
           Mindset
         </h3>
         <p className="leading-relaxed text-gray-700">
@@ -128,7 +128,7 @@ export default function AboutPage() {
 
       {/* Vision */}
       <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-yellow-500 pl-3">
+        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
           Vision
         </h3>
         <p className="leading-relaxed text-gray-700">
