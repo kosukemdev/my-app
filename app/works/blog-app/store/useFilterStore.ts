@@ -9,6 +9,8 @@ type FilterState = {
   setKeyword: (keyword: string) => void;
 };
 
+// stateとはアプリケーションの現在の状態を表すオブジェクトのこと
+// ストアに定義したすべての状態（データと関数） が入っています。
 export const useFilterStore = create<FilterState>((set) => ({
   selectedTag: [],
   keyword: "",
