@@ -3,8 +3,9 @@
 import { useFilterStore } from "../store/useFilterStore";
 import Link from "next/link";
 import useSWR from "swr";
+import type { Post } from "../api/posts/data";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { fetcher } from "../utils/fetcher";
 
 export default function PostList() {
   const { selectedTag, keyword } = useFilterStore();
@@ -12,7 +13,7 @@ export default function PostList() {
     data: posts,
     error,
     isLoading,
-  } = useSWR("/works/blog-app/api/posts", fetcher);
+  } = useSWR<Post[]>("/works/blog-app/api/posts", fetcher);
 
   if (isLoading) return <p className="text-center mt-10">読み込み中...</p>;
   if (error || !posts)
@@ -20,14 +21,14 @@ export default function PostList() {
       <p className="text-center text-red-500 mt-10">エラーが発生しました。</p>
     );
 
-  const filtered = posts.filter((post: any) => {
+  const filtered = (posts || []).filter((post: Post) => {
     // 選択されているタグをすべて含む記事だけ表示
     const matchTag =
       selectedTag.length === 0 ||
-      selectedTag.every((tag) => post.tags.includes(tag));
+  selectedTag.every((tag) => post.tags.includes(tag));
     const matchKeyword = post.title
       .toLowerCase()
-      .includes(keyword.toLowerCase());
+  .includes(keyword.toLowerCase());
     return matchTag && matchKeyword;
   });
 

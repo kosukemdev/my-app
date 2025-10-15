@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 import { X } from "lucide-react";
+import { fetcher } from "../utils/fetcher";
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
@@ -59,7 +60,7 @@ export default function NewPostPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // basic validation
+    // タイトルと本文の必須チェック
     if (!title.trim() || !content.trim()) {
       alert("タイトルと本文は必須です。");
       return;
@@ -67,24 +68,21 @@ export default function NewPostPage() {
 
     (async () => {
       try {
-        const res = await fetch("/works/blog-app/api/posts", {
+        const created = await fetcher("/works/blog-app/api/posts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title, content, tags }),
         });
 
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          alert(`投稿に失敗しました: ${err?.error || res.status}`);
-          return;
-        }
-
-        const created = await res.json();
-        // 作成後、記事詳細へ遷移
-        router.push(`/works/blog-app/${created.id}`);
-      } catch (err) {
-        alert("投稿中にエラーが発生しました。");
+  // 作成後、記事詳細へ遷移
+  router.push(`/works/blog-app/${(created as any).id}`);
+      } catch (err: any) {
         console.error(err);
+        if (err.status === 401) {
+          alert("ログインが必要です。ログインして再度お試しください。");
+        } else {
+          alert(`投稿に失敗しました: ${err?.message || err?.data?.error || "不明なエラー"}`);
+        }
       }
     })();
   };

@@ -8,7 +8,8 @@ export type Post = {
   content: string;
   tags: string[];
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
+  ownerEmail?: string | null;
 };
 
 const DATA_PATH = path.join(process.cwd(), "app", "works", "blog-app", "api", "posts", "posts.json");
@@ -16,9 +17,9 @@ const DATA_PATH = path.join(process.cwd(), "app", "works", "blog-app", "api", "p
 // 投稿データを読み込み、書き込むための関数
 export function readPosts(): Post[] {
   try {
-    // JSONファイルを読み込み、パースして返す
+    // JSONファイルを読み込み、パース（JSON文字列をJavaScriptのオブジェクトに変換する）して返す
     const raw = fs.readFileSync(DATA_PATH, "utf8");
-    // JSON文字列を JSON.parse() で JavaScriptの配列に変換
+    // JSON文字列を JSON.parse() で JavaScriptの配列に変換　as Post[] で型アサーション
     return JSON.parse(raw) as Post[];
   } catch (err) {
     // エラーハンドリング

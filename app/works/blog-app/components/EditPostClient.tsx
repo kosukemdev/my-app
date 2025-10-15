@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR, { mutate } from "swr";
+import type { Post } from "../api/posts/data";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
@@ -12,12 +13,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { fetcher } from "../utils/fetcher";
 
 export default function EditPostClient({ id }: { id: string }) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { data: post, error } = useSWR(
+  const { data: post, error } = useSWR<Post | null>(
     `/works/blog-app/api/posts/${id}`,
     fetcher
   );
@@ -64,14 +65,12 @@ export default function EditPostClient({ id }: { id: string }) {
     e.preventDefault();
     const updated = { title, content, tags };
 
-    const res = await fetch(`/works/blog-app/api/posts/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
-    });
-
-    if (res.ok) {
-      const updatedPost = await res.json();
+    try {
+      const updatedPost = await fetcher(`/works/blog-app/api/posts/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
 
       // 既存の一覧キャッシュを保存しておく（ロールバック用）
       const listKey = "/works/blog-app/api/posts";
@@ -110,8 +109,15 @@ export default function EditPostClient({ id }: { id: string }) {
         }
         alert("更新中に問題が発生しました。もう一度お試しください。");
       }
-    } else {
-      alert("更新に失敗しました。");
+    } catch (err: any) {
+      console.error(err);
+      if (err.status === 401) {
+        alert("ログインが必要です。ログインして再度お試しください。");
+      } else if (err.status === 403) {
+        alert("権限がありません。編集できるユーザーでログインしてください。");
+      } else {
+        alert("更新に失敗しました。");
+      }
     }
   };
 

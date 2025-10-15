@@ -1,20 +1,20 @@
 "use client";
 
 import useSWR from "swr";
+import type { Post } from "./api/posts/data";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import PostList from "./components/PostList";
 import PostFilter from "./components/Postfilter";
 import AuthButton from "./components/AuthButton";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { fetcher } from "./utils/fetcher";
 
 export default function BlogAppPage() {
   const {
     data: posts,
     error,
     isLoading,
-  } = useSWR("/works/blog-app/api/posts", fetcher);
+  } = useSWR<Post[]>("/works/blog-app/api/posts", fetcher);
   // useSessionとは　認証情報を取得するためのフック
   const { data: session, status } = useSession();
 
