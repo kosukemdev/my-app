@@ -7,7 +7,11 @@ export default function PostFilter({ tags }: { tags: string[] }) {
     useFilterStore();
 
   const toggleTag = (tag: string) => {
-    selectedTag.includes(tag) ? removeTag(tag) : setTag(tag);
+    if (selectedTag.includes(tag)) {
+      removeTag(tag);
+    } else {
+      setTag(tag);
+    }
   };
 
   return (

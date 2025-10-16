@@ -10,7 +10,7 @@ type FilterState = {
 };
 
 // stateとはアプリケーションの現在の状態を表すオブジェクトのこと
-// ストアに定義したすべての状態（データと関数） が入っています。
+// ストアに定義したすべての状態（データと関数） が入っている。
 export const useFilterStore = create<FilterState>((set) => ({
   selectedTag: [],
   keyword: "",

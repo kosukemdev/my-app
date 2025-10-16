@@ -1,40 +1,25 @@
-"use client";
-
-import useSWR from "swr";
-import type { Post } from "./api/posts/data";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import PostList from "./components/PostList";
 import PostFilter from "./components/Postfilter";
 import AuthButton from "./components/AuthButton";
-import { fetcher } from "./utils/fetcher";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
-export default function BlogAppPage() {
-  const {
-    data: posts,
-    error,
-    isLoading,
-  } = useSWR<Post[]>("/works/blog-app/api/posts", fetcher);
-  // useSessionとは　認証情報を取得するためのフック
-  const { data: session, status } = useSession();
+export default async function BlogAppPage() {
+  // 必要ならサーバー側でセッション確認（一覧は公開でも良いので任意）
+  const session = await getServerSession(authOptions);
 
-  // status は "loading" | "authenticated" | "unauthenticated"を返す
-  if (status === "loading")
-    return <p className="text-center mt-10">読み込み中...</p>;
+  // サーバーで投稿をプリフェッチ
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
-  if (isLoading) return <p className="text-center mt-10">読み込み中...</p>;
-  if (error)
-    return (
-      <p className="text-center text-red-500 mt-10">エラーが発生しました。</p>
-    );
-
-  const tags: string[] = Array.from(
+  const tags = Array.from(
     new Set(
-      Array.isArray(posts)
-        ? posts.flatMap((post: any) =>
-            Array.isArray(post?.tags) ? post.tags : []
-          )
-        : []
+      posts
+        .flatMap((post) => post.tags.split(",").map((tag) => tag.trim()))
+        .filter((tag) => tag)
     )
   );
 
@@ -57,7 +42,7 @@ export default function BlogAppPage() {
         )}
       </div>
       <PostFilter tags={tags} />
-      <PostList />
+      <PostList initialPosts={posts} />
     </main>
   );
 }

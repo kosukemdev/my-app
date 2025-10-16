@@ -1,126 +1,51 @@
-"use client";
-
-import useSWR from "swr";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { fetcher } from "../utils/fetcher";
-import type { Post } from "../api/posts/data";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import authOptions from "@/lib/auth";
+import PostActions from "../components/PostActions";
 
-export default function BlogDetailPage() {
-  // 動的にIDを取り出している
-  const { id } = useParams();
-  const {
-    data: post,
-    error,
-    isLoading,
-  } = useSWR<Post | null>(id ? `/works/blog-app/api/posts/${id}` : null, fetcher);
-  const { data: session } = useSession();
-  const router = useRouter();
+export default async function BlogDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  const post = await prisma.post.findUnique({
+    where: { id: Number(id) },
+  });
 
-  if (error) {
-    const status = (error as any).status;
-    if (status === 401) {
-      return (
-        <div className="text-center mt-10">
-          <p className="text-red-500">ログインが必要です。</p>
-          <p className="mt-2">編集や削除はログイン後に行えます。</p>
-          <div className="mt-4">
-            <Link
-              href="/works/blog-app"
-              className="px-6 py-2 bg-[#918DB1] text-[#323b50] font-semibold rounded hover:bg-[#7787aa] hover:text-white transition cursor-pointer"
-            >
-              記事一覧に戻る
-            </Link>
-          </div>
-        </div>
-      );
-    }
-    if (status === 403) {
-      return (
-        <div className="text-center mt-10">
-          <p className="text-red-500">権限がありません（Forbidden）。</p>
-          <p className="mt-2">この操作を行う権限がない可能性があります。</p>
-        </div>
-      );
-    }
-    if (status === 404) {
-      return (
-        <p className="text-center mt-10 text-red-500">
-          記事が見つかりません（404）。
-        </p>
-      );
-    }
-
-    return (
-      <p className="text-center mt-10 text-red-500">
-        エラーが発生しました: {(error as any).message}
-      </p>
-    );
-  }
-
-  if (!post)
+  if (!post) {
     return (
       <p className="text-center mt-10 text-red-500">記事が見つかりません。</p>
     );
+  }
+
+  // セッションを参照して編集/削除ボタンの表示判断
+  const session = await getServerSession(authOptions);
+
+  const tags = typeof post.tags === "string" ? post.tags.split(",") : [];
 
   return (
     <main className="max-w-3xl mx-auto py-10 px-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold mt-4 mb-2">{post.title}</h1>
-        {session && (
-          <>
-            <Link
-              href={`/works/blog-app/edit/${post.id}`}
-              className="inline-block mt-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition cursor-pointer"
-            >
-              編集する
-            </Link>
-            <button
-              onClick={async () => {
-                if (confirm("本当に削除しますか？")) {
-                  try {
-                    await fetcher(`/works/blog-app/api/posts/${post.id}`, {
-                      method: "DELETE",
-                    });
-                    alert("記事を削除しました。");
-                    router.push("/works/blog-app");
-                  } catch (err: any) {
-                    console.error(err);
-                    if (err.status === 401) {
-                      alert("ログインが必要です。ログインして再度お試しください。");
-                    } else if (err.status === 403) {
-                      alert("削除する権限がありません。");
-                    } else {
-                      alert("記事の削除に失敗しました。");
-                    }
-                  }
-                }
-              }}
-              className="inline-block mt-4 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition cursor-pointer"
-            >
-              削除する
-            </button>
-          </>
-        )}
+        {session && <PostActions postId={post.id} />}
       </div>
 
       <div className="space-x-2 mt-4">
-        {post.tags.map((tag: string) => (
+        {tags.map((tag: string) => (
           <span key={tag} className="px-3 py-1 rounded-full border bg-gray-100">
             {tag}
           </span>
         ))}
       </div>
       <div className="flex gap-4">
-        <p className="text-sm text-gray-500 mt-4">作成日: {post.createdAt}</p>
+        <p className="text-sm text-gray-500 mt-4">作成日: {new Date(post.createdAt).toLocaleString()}</p>
         {post.updatedAt && (
-          <p className="text-sm text-gray-500 mt-4">更新日: {post.updatedAt}</p>
+          <p className="text-sm text-gray-500 mt-4">更新日: {new Date(post.updatedAt).toLocaleString()}</p>
         )}
       </div>
 

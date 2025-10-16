@@ -1,25 +1,34 @@
-export async function fetcher(url: string, init?: RequestInit) {
+// fetch API をラップしたユーティリティ関数
+// レスポンスの JSON パースとエラーハンドリングを行う
+
+// FetchError 型は、fetch エラーにステータスコードとデータを追加したもの
+export type FetchError = Error & { status?: number; data?: unknown };
+
+// ジェネリック型 T を使って、返されるデータの型を指定可能にする  
+export async function fetcher<T = unknown>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init);
-  // ネットワークエラーなどで response がない場合は例外を投げる
   if (!res) {
     throw new Error("No response from server");
   }
 
   const text = await res.text();
-  let data: any = null;
+  let data: unknown = null;
   try {
     data = text ? JSON.parse(text) : null;
-  } catch (e) {
-    // JSON でないレスポンスはそのままテキストを返す
+  } catch (_err) {
     data = text;
   }
 
   if (!res.ok) {
-    const err: any = new Error((data && data.error) || res.statusText || "Error");
+    const message =
+      typeof data === "object" && data && "error" in (data as Record<string, unknown>)
+        ? String((data as Record<string, unknown>).error)
+        : res.statusText || "Error";
+    const err = new Error(message) as FetchError;
     err.status = res.status;
     err.data = data;
     throw err;
   }
 
-  return data;
+  return data as T;
 }

@@ -1,46 +1,38 @@
 import { NextResponse } from "next/server";
-import { readPosts, writePosts } from "./data";
+import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 
-// GETリクエストで記事一覧を返す
+// GET: 投稿一覧
 export async function GET() {
-  const posts = readPosts();
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+  });
   return NextResponse.json(posts);
 }
 
-// POST: 新規記事作成
+// POST: 新規投稿
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions); 
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "ログインしてください" }, { status: 401 });
   }
+
   try {
-    const body = await req.json();
-    const { title, content, tags } = body;
+    const { title, content, tags } = await req.json();
 
-    if (typeof title !== "string" || typeof content !== "string" || !Array.isArray(tags)) {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-    }
-
-    const posts = readPosts();
-    // 新しいIDを生成（既存の最大ID + 1）
-    const newId = posts.length ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
-    const today = new Date().toISOString().split("T")[0];
-    const newPost = {
-      id: newId,
-      title,
-      content,
-      tags,
-      createdAt: today,
-      ownerEmail: session.user?.email ?? null,
-    };
-
-    posts.push(newPost);
-    await writePosts(posts);
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        tags: tags.join(","), // カンマ区切りにして保存
+        ownerEmail: session.user?.email ?? null,
+      },
+    });
 
     return NextResponse.json(newPost, { status: 201 });
-  } catch (err) {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "作成に失敗しました" }, { status: 400 });
   }
 }
