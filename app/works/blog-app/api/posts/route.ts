@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
@@ -12,7 +12,7 @@ export async function GET() {
 }
 
 // POST: 新規投稿
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "ログインしてください" }, { status: 401 });

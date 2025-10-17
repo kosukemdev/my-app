@@ -21,7 +21,7 @@ export async function GET(
 
 // /api/posts/[id] → PUT　記事の更新を行う
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
@@ -68,7 +68,7 @@ export async function PUT(
 
 // /api/posts/[id] → DELETE　記事の削除を行う
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);

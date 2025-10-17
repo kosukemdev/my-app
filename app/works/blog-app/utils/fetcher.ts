@@ -18,7 +18,7 @@ export async function fetcher<T = unknown>(url: string, init?: RequestInit): Pro
   let data: unknown = null;
   try {
     data = text ? JSON.parse(text) : null;
-  } catch (_err) {
+  } catch (err) {
     data = text;
   }
 
