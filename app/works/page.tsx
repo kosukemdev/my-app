@@ -26,15 +26,6 @@ const projects = [
     thumbnail: "/thumbnails/sample.png",
     demo: "/works/todo-app",
   },
-  {
-    title: "Mini EC",
-    slug: "ec-app",
-    description: "商品一覧＋お気に入り機能",
-    reason: "API連携やUI設計を学ぶために作成",
-    tech: ["Next.js", "API", "Tailwind"],
-    thumbnail: "/thumbnails/sample.png",
-    demo: "/works/ec-app",
-  },
 ];
 
 export default function Works() {
