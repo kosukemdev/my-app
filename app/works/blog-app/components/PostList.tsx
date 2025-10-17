@@ -40,7 +40,7 @@ export default function PostList({ initialPosts }: { initialPosts?: Post[] }) {
         <Link
           href={`/works/blog-app/${post.id}`}
           key={post.id}
-          className="p-4 border rounded"
+          className="p-4 border rounded hover:shadow-lg transition"
         >
           <h2 className="text-lg font-semibold">{post.title}</h2>
           <p className="text-sm text-gray-500">{post.tags}</p>

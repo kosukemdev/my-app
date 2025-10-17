@@ -1,11 +1,16 @@
-"use client";
+import { Metadata } from "next";
+import BlogClientProvider from "./components/BlogClientProvider";
 
-import { SessionProvider } from "next-auth/react";
-// ブログアプリをSessionProviderでラップすることで、認証情報を子コンポーネントで利用可能にする
+// metadata はサーバーコンポーネントとしてこのレイアウトに残す
+export const metadata: Metadata = {
+  title: "Blog App | Kosuke Masaki Portfolio",
+  description: "シンプルなブログアプリケーションです。",
+};
+
 export default function BlogLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return <BlogClientProvider>{children}</BlogClientProvider>;
 }

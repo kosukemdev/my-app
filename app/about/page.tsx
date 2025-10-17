@@ -30,7 +30,7 @@ export default function AboutPage() {
           <p className="text-gray-600 leading-relaxed">
             1995年生まれ。宮城県仙台市在住。
             <br />
-            前職ではWeb制作会社にて、約半年間コーディング業務を担当しました。
+            前職ではWeb制作会社にて、約8ヵ月コーディング業務を担当しました。
             <br />
             HTML /
             CSSを中心に制作経験を積む中で、JavaScriptを使った動的なUIや、Reactなどのフロントエンド開発に興味を持つようになりました。

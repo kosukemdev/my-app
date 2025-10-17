@@ -5,6 +5,9 @@
 export type FetchError = Error & { status?: number; data?: unknown };
 
 // ジェネリック型 T を使って、返されるデータの型を指定可能にする  
+// ジェネリック型とは、関数やクラス、インターフェースなどで使われる型のパラメータのこと
+// 呼び出し時に具体的な型を指定できる
+// 例えば fetcher<User[]> のように使うと、User 型の配列が返される
 export async function fetcher<T = unknown>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init);
   if (!res) {

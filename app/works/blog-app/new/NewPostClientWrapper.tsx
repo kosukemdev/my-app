@@ -9,14 +9,18 @@ export default function NewPostClientWrapper() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (data: { title: string; content: string; tags: string[] }) => {
+  const handleSubmit = async (data: {
+    title: string;
+    content: string;
+    tags: string[];
+  }) => {
     setLoading(true);
     try {
-      const created = await fetcher("/works/blog-app/api/posts", {
+      const created = (await fetcher("/works/blog-app/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      }) as { id: number };
+      })) as { id: number };
       router.push(`/works/blog-app/${created.id}`);
     } catch (err: unknown) {
       console.error(err);
@@ -27,7 +31,12 @@ export default function NewPostClientWrapper() {
         const maybeMessage = (err as { message?: string })?.message;
         const maybeData = (err as { data?: unknown })?.data;
         let message = maybeMessage;
-        if (!message && typeof maybeData === "object" && maybeData !== null && "error" in (maybeData as Record<string, unknown>)) {
+        if (
+          !message &&
+          typeof maybeData === "object" &&
+          maybeData !== null &&
+          "error" in (maybeData as Record<string, unknown>)
+        ) {
           message = String((maybeData as Record<string, unknown>).error);
         }
         alert(`投稿に失敗しました: ${message || "不明なエラー"}`);
@@ -39,6 +48,7 @@ export default function NewPostClientWrapper() {
 
   return (
     <PostForm
+      initialTags={[]}
       submitLabel="投稿する"
       onSubmit={handleSubmit}
       loading={loading}

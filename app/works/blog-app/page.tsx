@@ -6,6 +6,11 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
+export const metadata = {
+  title: "Blog App | Kosuke Masaki Portfolio",
+  description: "シンプルなブログアプリケーションです。",
+};
+
 export default async function BlogAppPage() {
   // 必要ならサーバー側でセッション確認（一覧は公開でも良いので任意）
   const session = await getServerSession(authOptions);

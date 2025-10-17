@@ -22,7 +22,7 @@ export default function EditPostClient({
     fallbackData: initialPost,
   });
 
-  // SWR のグローバルキャッシュ参照（ロールバック用に使用）
+  // SWR のグローバルキャッシュ参照（ロールバック用）
   const { cache } = useSWRConfig();
 
   const [title, setTitle] = useState("");
@@ -41,9 +41,9 @@ export default function EditPostClient({
 
   if (status === "loading") return <p>読み込み中...</p>;
   if (!session) {
+    // redirect() はコンポーネント内で使えない
     router.push("/works/blog-app");
-    // redirect() はコンポーネント内で使えないので、router.push() を使う
-    // push() は非同期なので、念のため null を返しておく
+    // push() は非同期なので、念のため null を返す
     return null;
   }
 
