@@ -7,6 +7,8 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// switched to PostgreSQL (for Vercel re-deploy check)
+
 model Post {
   id         Int      @id @default(autoincrement())
   title      String
