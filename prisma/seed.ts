@@ -14,7 +14,7 @@ async function main() {
     data: [
       {
         id: 1,
-        title: "Post 1",
+        title: "Post いち",
         content: "Content for post 1",
         tags: "tag1,tag2",
         createdAt: new Date(),
