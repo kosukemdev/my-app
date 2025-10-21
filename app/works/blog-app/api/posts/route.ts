@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const maxAttempts = 5;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
-        const created = await prisma.$transaction(async (tx) => {
+        const created = await prisma.$transaction(async (tx: any) => {
           // 現在存在する id を昇順で取得し、最小の欠番を見つける
           const rows = await tx.post.findMany({ select: { id: true }, orderBy: { id: "asc" } });
           let nextId = 1;
