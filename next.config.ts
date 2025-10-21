@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client", "prisma"],
   },
+  // PrismaをEdgeではなくNodeで動かす
+  output: "standalone",
 };
 
 export default nextConfig;
