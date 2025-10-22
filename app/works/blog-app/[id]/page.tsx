@@ -2,8 +2,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import authOptions from "@/lib/auth";
+import authOptions, { safeGetServerSession } from "@/lib/auth";
 import PostActions from "../components/PostActions";
+export const dynamic = 'force-dynamic';
 import prisma from "@/lib/prisma";
 
 export default async function BlogDetailPage({
@@ -24,7 +25,7 @@ export default async function BlogDetailPage({
   }
 
   // セッションを参照して編集/削除ボタンの表示判断
-  const session = await getServerSession(authOptions);
+  const session = await safeGetServerSession();
 
   const tags = typeof post.tags === "string" ? post.tags.split(",") : [];
 

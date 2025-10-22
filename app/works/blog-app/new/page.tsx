@@ -1,9 +1,11 @@
 import { getServerSession } from "next-auth";
-import authOptions from "@/lib/auth";
+import authOptions, { safeGetServerSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewPostPage() {
-  const session = await getServerSession(authOptions);
+  const session = await safeGetServerSession();
   if (!session) {
     // ログインしていないなら一覧へリダイレクト
     redirect("/works/blog-app");

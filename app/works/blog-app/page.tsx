@@ -12,8 +12,10 @@ export const metadata = {
 };
 
 export default async function BlogAppPage() {
-  // 必要ならサーバー側でセッション確認（一覧は公開でも良いので任意）
-  const session = await getServerSession(authOptions);
+  // 公開一覧ページ: サーバーで session を取得すると build 時に
+  // `headers` を使うため動的扱いになり、静的生成ができなくなる。
+  // クライアント側の `AuthButton` にセッション表示を任せるためサーバーでは null にする。
+  const session = null;
 
   // サーバーで投稿をプリフェッチ
   const posts = await prisma.post.findMany({

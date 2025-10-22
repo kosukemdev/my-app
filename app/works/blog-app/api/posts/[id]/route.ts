@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 // import prisma from "@/lib/prisma";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import authOptions from "@/lib/auth";
+import authOptions, { safeGetServerSession } from "@/lib/auth";
 
 // /api/posts/[id] → GET　個別の記事を返す
 export async function GET(
@@ -25,7 +25,7 @@ export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await safeGetServerSession();
   if (!session) {
     return NextResponse.json(
       { error: "ログインしてください。" },
