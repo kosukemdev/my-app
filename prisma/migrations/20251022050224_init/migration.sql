@@ -6,7 +6,6 @@ CREATE TABLE "Post" (
     "tags" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ownerEmail" TEXT,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
 );
