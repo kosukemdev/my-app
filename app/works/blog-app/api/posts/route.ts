@@ -1,15 +1,17 @@
 export const runtime = "nodejs";
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import authOptions, { safeGetServerSession } from "@/lib/auth";
+import { safeGetServerSession } from "@/lib/auth";
 
 // GET: 投稿一覧
 export async function GET() {
-  const posts = await prisma.post.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  return NextResponse.json(posts);
+  try {
+    const posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+    return NextResponse.json(posts);
+  } catch (err) {
+    console.error("GET /works/blog-app/api/posts failed:", err);
+    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 503 });
+  }
 }
 
 // POST: 新規投稿
