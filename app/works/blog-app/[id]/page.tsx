@@ -14,9 +14,13 @@ export default async function BlogDetailPage({
 }) {
   const { id } = await params;
 
-  const post = await prisma.post.findUnique({
-    where: { id: Number(id) },
-  });
+  let post = null;
+  try {
+    post = await prisma.post.findUnique({ where: { id: Number(id) } });
+  } catch (err) {
+    console.error("Failed to fetch post in BlogDetailPage:", err);
+    post = null;
+  }
 
   if (!post) {
     return (

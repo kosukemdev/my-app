@@ -5,6 +5,7 @@ import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import type { Post } from "@prisma/client";
 
 export const dynamic = 'force-dynamic';
 
@@ -19,10 +20,14 @@ export default async function BlogAppPage() {
   // クライアント側の `AuthButton` にセッション表示を任せるためサーバーでは null にする。
   const session = null;
 
-  // サーバーで投稿をプリフェッチ
-  const posts = await prisma.post.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  // サーバーで投稿をプリフェッチ（DB エラーがあってもページをクラッシュさせない）
+  let posts: Post[] = [];
+  try {
+    posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+  } catch (err) {
+    console.error("Failed to fetch posts in BlogAppPage:", err);
+    posts = [];
+  }
 
   const tags = Array.from(
     new Set(

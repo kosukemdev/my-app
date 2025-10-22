@@ -21,8 +21,14 @@ export default async function EditPostPage({
   }
 
   // サーバーで投稿をプリフェッチしてクライアントに渡す
-  const posts = await prisma.post.findMany();
-  const post = posts.find((p) => p.id === Number(id)) ?? null;
+  let post = null as (Post | null);
+  try {
+    const posts = await prisma.post.findMany();
+    post = posts.find((p) => p.id === Number(id)) ?? null;
+  } catch (err) {
+    console.error("Failed to fetch posts in EditPostPage:", err);
+    post = null;
+  }
 
   return <EditPostClient id={id} initialPost={post as Post | null} />;
 }
