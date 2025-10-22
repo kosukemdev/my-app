@@ -1,11 +1,8 @@
 export const runtime = "nodejs";
 import { NextResponse, NextRequest } from "next/server";
-// import prisma from "@/lib/prisma";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
-
-const prisma = new PrismaClient();
 
 // GET: 投稿一覧
 export async function GET() {

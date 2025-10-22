@@ -3,9 +3,7 @@ import type { Post } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export default async function EditPostPage({
   params,

@@ -1,12 +1,10 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import PostActions from "../components/PostActions";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export default async function BlogDetailPage({
   params,
