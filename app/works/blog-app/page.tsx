@@ -4,7 +4,9 @@ import PostFilter from "./components/Postfilter";
 import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const metadata = {
   title: "Blog App | Kosuke Masaki Portfolio",
