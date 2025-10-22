@@ -1,6 +1,6 @@
 import EditPostClient from "../../components/EditPostClient";
-import type { Post } from "../../types";
-import { serializePost } from "../../types";
+import type { Post, DbPost } from "@/lib/types";
+import { serializePost } from "@/lib/types";
 import { getServerSession } from "next-auth";
 import authOptions, { safeGetServerSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -24,9 +24,9 @@ export default async function EditPostPage({
   // サーバーで投稿をプリフェッチしてクライアントに渡す
   let post = null as (Post | null);
   try {
-    const posts = await prisma.post.findMany();
-    const found = posts.find((p) => p.id === Number(id)) ?? null;
-    post = found ? serializePost(found) : null;
+  const posts = (await prisma.post.findMany()) as DbPost[];
+  const found = posts.find((p) => p.id === Number(id)) ?? null;
+  post = found ? serializePost(found) : null;
   } catch (err) {
     console.error("Failed to fetch posts in EditPostPage:", err);
     post = null;

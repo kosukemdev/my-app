@@ -5,8 +5,8 @@ import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import type { Post } from "./types";
-import { serializePost } from "./types";
+import type { Post, DbPost } from "@/lib/types";
+import { serializePost } from "@/lib/types";
 
 export const dynamic = 'force-dynamic';
 
@@ -24,8 +24,8 @@ export default async function BlogAppPage() {
   // サーバーで投稿をプリフェッチ（DB エラーがあってもページをクラッシュさせない）
   let posts: Post[] = [];
   try {
-    const raw = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
-    posts = raw.map((p) => serializePost(p));
+  const raw = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+  posts = (raw as DbPost[]).map((p) => serializePost(p));
   } catch (err) {
     console.error("Failed to fetch posts in BlogAppPage:", err);
     posts = [];

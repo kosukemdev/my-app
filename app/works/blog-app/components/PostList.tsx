@@ -3,7 +3,7 @@
 import { useFilterStore } from "../store/useFilterStore";
 import Link from "next/link";
 import useSWR from "swr";
-import type { Post } from "../types";
+import type { Post } from "@/lib/types";
 
 import { fetcher } from "../utils/fetcher";
 
