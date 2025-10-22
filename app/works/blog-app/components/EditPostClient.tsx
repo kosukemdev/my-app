@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR, { mutate, useSWRConfig } from "swr";
-import type { Post } from '@prisma/client'
+import type { Post } from "../types";
 import PostForm from "./PostForm";
 import { fetcher } from "../utils/fetcher";
 
