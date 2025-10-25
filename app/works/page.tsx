@@ -10,12 +10,12 @@ export const metadata = {
 const projects = [
   {
     title: "Blog CMS",
-    slug: "blog-app",
+    slug: "blog",
     description: "記事のCRUD機能付きブログアプリ",
     reason: "記事の管理やデータ取得の仕組みを学ぶために作成",
     tech: ["Next.js", "SWR", "Tailwind", "Zustand", "NextAuth", "Prisma"],
     thumbnail: "/thumbnails/sample.png",
-    demo: "/works/blog-app",
+    demo: "/works/blog",
   },
   {
     title: "Todo App",

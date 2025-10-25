@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "title": "初めての投稿",
+    "content": "Next.jsのブログアプリを作りました！",
+    "tag": "Next.js",
+    "createdAt": "2025-10-07T10:00:00Z",
+    "updatedAt": "2025-10-07T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "次の投稿",
+    "content": "SWRを使ったデータフェッチング",
+    "tag": "SWR",
+    "createdAt": "2025-10-07T10:00:00Z",
+    "updatedAt": "2025-10-07T10:00:00Z"
+  },
+  {
+    "id": 3,
+    "title": "さらにもう一つの投稿",
+    "content": "TypeScriptで型安全なコードを書く方法",
+    "tag": "TypeScript",
+    "createdAt": "2025-10-07T10:00:00Z",
+    "updatedAt": "2025-10-07T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "title": "テスト",
+    "content": "テスト投稿",
+    "tag": "Tech",
+    "createdAt": "2025-10-25T07:10:57.627Z"
+  }
+]
