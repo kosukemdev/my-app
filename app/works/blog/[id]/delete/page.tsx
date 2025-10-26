@@ -53,14 +53,20 @@ export default function DeletePostPage() {
 
       <div className="border p-4 rounded bg-gray-50 mb-6">
         <h2 className="text-lg font-semibold">{post.title}</h2>
-        <p className="text-sm text-gray-500 mb-2">#{post.tag}</p>
+        <p className="text-sm text-gray-500 mb-2">
+          {post.tags?.map((tag, i) => (
+            <span key={`${tag}-${i}`} className="mr-2">
+              #{tag}
+            </span>
+          ))}
+        </p>
         <p className="text-gray-700">{post.content}</p>
       </div>
 
       <div className="flex justify-between">
         <Link
           href={`/works/blog/${id}`}
-          className="text-gray-600 hover:underline"
+          className="text-blue-500 hover:underline"
         >
           ← 戻る
         </Link>

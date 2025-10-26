@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
+import fs, { stat } from "fs";
 import path from "path";
 
 const filePath = path.join(process.cwd(), "app/api/posts/data.json");
@@ -13,9 +13,14 @@ function writeData(data: any) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const posts = readData();
-  return NextResponse.json(posts);
+  const { searchParams } = new URL(request.url);
+  const tag = searchParams.get("tag");
+
+  const filtered = tag ? posts.filter((p: any) => p.tags?.includes(tag)) : posts;
+
+  return NextResponse.json(filtered);
 }
 
 export async function POST(req: NextRequest) {
@@ -26,7 +31,8 @@ export async function POST(req: NextRequest) {
     id: posts.length ? Math.max(...posts.map((p: any) => p.id)) + 1 : 1,
     title: body.title,
     content: body.content,
-    tag: body.tag,
+    tags: body.tags || [],
+    status: body.status || "draft",
     createdAt: new Date().toISOString(),
   };
 

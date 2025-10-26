@@ -3,8 +3,18 @@
 import { useParams, useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import { fetcher } from "@/lib/fetcher";
-import { Post } from '@/app/works/blog/page';
-import { useEffect, useState } from "react";
+import { Post } from "@/app/works/blog/page";
+import { useEffect } from "react";
+import TagInput from "../../components/TagInput";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
+
+type FormData = {
+  title: string;
+  content: string;
+  tags: string[];
+  status: string;
+};
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -14,53 +24,34 @@ export default function EditPostPage() {
     fetcher
   );
 
-  const [title, setTitle] = useState("");
-  const [tag, setTag] = useState("");
-  const [content, setContent] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
+    defaultValues: {
+      title: "",
+      content: "",
+      tags: [],
+      status: "",
+    },
+  });
 
   useEffect(() => {
-    if (post) {
-      setTitle(post.title);
-      setTag(post.tag);
-      setContent(post.content);
-    }
-  }, [post]);
+    if (post) reset(post);
+  }, [post, reset]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const Tags = watch("tags");
 
-    try {
-      const res = await fetch(`/api/posts/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, tag, content }),
-      });
-
-      if (!res.ok) throw new Error("更新に失敗しました。");
-
-      const updatedPost = await res.json();
-
-      mutate(`/api/posts/${id}`, updatedPost, false);
-      mutate(
-        "/api/posts",
-        (prev?: Post[]) =>
-          prev
-            ? prev.map((p) => (p.id === updatedPost.id ? updatedPost : p))
-            : [],
-        false
-      );
-
-      router.push(`/works/blog/${id}`);
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      alert("更新中にエラーが発生しました");
-    } finally {
-      setIsSubmitting(false);
-    }
+  const onSubmit = async (data: FormData) => {
+    const res = await fetch(`/api/posts/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("更新に失敗しました。");
+    mutate("/api/posts");
+    router.push(`/works/blog/${id}`);
   };
+
+  if (error) return <p>エラーが発生しました。</p>;
+  if (!post) return <p>読み込み中...</p>;
 
   if (error) return <p className="p-6">データ取得に失敗しました。</p>;
   if (!post) return <p className="p-6">Loading...</p>;
@@ -69,45 +60,58 @@ export default function EditPostPage() {
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">記事を編集</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold mb-1">タイトル</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border rounded p-2"
-            required
-          />
+          <label className="block mb-1 font-medium">公開状態</label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-1">
+              <input type="radio" value="published" {...register("status")} />
+              公開
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" value="draft" {...register("status")} />
+              下書き
+            </label>
+          </div>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">タグ</label>
+          <label className="block text-sm font-semibold mb-1">タイトル</label>
           <input
-            type="text"
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
-            className="w=full border rounded p-2"
+            {...register("title", { required: true })}
+            className="w-full border rounded p-2"
           />
         </div>
 
         <div>
           <label className="block text-sm font-semibold mb-1">内容</label>
           <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            {...register("content", { required: true })}
             className="w-full border rounded p-2 h-32"
-            required
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          {isSubmitting ? "更新中,,," : "更新する"}
-        </button>
+        <div>
+          <label className="block text-sm font-semibold mb-1">タグ</label>
+          <TagInput
+            value={Tags}
+            onChange={(newTags) => setValue("tags", newTags)}
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <Link
+            href={`/works/blog/${id}`}
+            className="text-blue-500 hover:underline"
+          >
+            ← 戻る
+          </Link>
+          <button
+            type="submit"
+            className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition"
+          >
+            更新する
+          </button>
+        </div>
       </form>
     </div>
   );

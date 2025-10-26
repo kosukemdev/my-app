@@ -7,9 +7,13 @@ export default async function DetailPage({
 }: {
   params: { id: string };
 }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${params.id}`, {
-    cache: "no-store",
-  });
+  const { id } = await params;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     return notFound();
@@ -20,7 +24,13 @@ export default async function DetailPage({
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       <div>
         <h1 className="text-3xl font-bold">{post.title}</h1>
-        <p className="text-gray-500 mt-2">#{post.tag}</p>
+        <p className="text-gray-500 mt-2">
+          {post.tags?.map((tag) => (
+            <span key={tag} className="mr-2">
+              #{tag}
+            </span>
+          ))}
+        </p>
       </div>
 
       <div className="border-t pt-4 text-gray-800 leading-relaxed whitespace-pre-wrap">
