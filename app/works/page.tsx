@@ -2,6 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Works | Kosuke Masaki Portfolio",
   description: "制作物一覧ページです。ブログアプリやTodoアプリを紹介します。",

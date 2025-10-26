@@ -1,84 +1,102 @@
 "use client";
 
-import useSWR, { mutate } from "swr";
-import { fetcher } from "@/lib/fetcher";
-import { Post } from "@/app/works/blog/page";
+import useSWR, { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+
+const schema = z.object({
+  title: z.string().min(1, "タイトルは必須です"),
+  content: z.string().min(1, "本文は必須です"),
+  tag: z.string().min(1, "タグは必須です"),
+});
+
+type FormData = z.infer<typeof schema>;
 
 export default function NewPostPage() {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [tag, setTag] = useState("");
-  const [content, setContent] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [title, setTitle] = useState("");
+  // const [tag, setTag] = useState("");
+  // const [content, setContent] = useState("");
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const { data: posts } = useSWR<Post[]>("/api/posts", fetcher);
 
-  const { data: posts } = useSWR<Post[]>("/api/posts", fetcher);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const { mutate } = useSWRConfig();
 
-    const newPost = { title, tag, content };
-
+  const onSubmit = async (data: FormData) => {
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPost),
+        body: JSON.stringify(data),
       });
 
       if (!res.ok) {
         throw new Error("投稿に失敗しました。");
       }
 
-      const createdPost = await res.json();
+      mutate("/api/posts");
 
-      mutate("/api/posts", [...(posts ?? []), createdPost], false);
-
+      reset();
       router.push("/works/blog");
       router.refresh();
     } catch (error) {
       console.error(error);
       alert("投稿中にエラーが発生しました。");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">新規投稿</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block text-sm font-semibold mb-1">タイトル</label>
           <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            {...register("title")}
             className="w-full border rounded p-2"
-            required
+            placeholder="タイトルを入力"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-semibold mb-1">タグ</label>
           <input
-            type="text"
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
+            {...register("tag")}
+            placeholder="タグを入力"
             className="w-full border rounded p-2"
           />
+          {errors.tag && (
+            <p className="text-red-500 text-sm mt-1">{errors.tag.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-semibold mb-1">内容</label>
           <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            {...register("content")}
+            rows={6}
+            placeholder="本文を入力"
             className="w-full border rounded p-2 h-32"
-            required
           />
+          {errors.content && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.content.message}
+            </p>
+          )}
         </div>
 
         <button

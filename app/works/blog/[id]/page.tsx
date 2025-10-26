@@ -1,23 +1,20 @@
-"use client";
-
-import { fetcher } from "@/lib/fetcher";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import { Post } from "@/app/works/blog/page";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Post } from "../page";
 
-export default function DetailPage() {
-  const { id } = useParams();
-  const router = useRouter();
+export default async function DetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${params.id}`, {
+    cache: "no-store",
+  });
 
-  const { data: post, error } = useSWR<Post>(
-    id ? `/api/posts/${id}` : null,
-    fetcher
-  );
-
-  if (error) return <p className="p-6">データ取得に失敗しました。</p>;
-  if (!post) return <p className="p-6">Loading...</p>;
+  if (!res.ok) {
+    return notFound();
+  }
+  const post: Post = await res.json();
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
@@ -36,18 +33,18 @@ export default function DetailPage() {
         </Link>
 
         <div className="flex gap-3">
-          <button
-            onClick={() => router.push(`/works/blog/${id}/edit`)}
+          <Link
+            href={`/works/blog/${post.id}/edit`}
             className="text-sm bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
           >
             編集
-          </button>
-          <button
-            onClick={() => router.push(`/works/blog/${id}/delete`)}
+          </Link>
+          <Link
+            href={`/works/blog/${post.id}/delete`}
             className="text-sm bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           >
             削除
-          </button>
+          </Link>
         </div>
       </div>
     </div>

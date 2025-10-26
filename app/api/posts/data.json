@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "初めての投稿",
-    "content": "Next.jsのブログアプリを作りました！",
+    "content": "Next.jsのブログアプリを作りましたよ！",
     "tag": "Next.js",
     "createdAt": "2025-10-07T10:00:00Z",
     "updatedAt": "2025-10-07T10:00:00Z"
@@ -29,5 +29,12 @@
     "content": "テスト投稿",
     "tag": "Tech",
     "createdAt": "2025-10-25T07:10:57.627Z"
+  },
+  {
+    "id": 7,
+    "title": "zod test",
+    "content": "zodのテストです",
+    "tag": "zod",
+    "createdAt": "2025-10-26T00:25:47.200Z"
   }
 ]

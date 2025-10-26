@@ -11,6 +11,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.17.1",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
@@ -26,12 +27,14 @@
     "postcss": "^8.5.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.65.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "shadcn-ui": "^0.9.5",
     "swr": "^2.3.6",
     "tailwind-merge": "^3.3.1",
     "uuid": "^13.0.0",
+    "zod": "^4.1.12",
     "zustand": "^5.0.8"
   },
   "devDependencies": {

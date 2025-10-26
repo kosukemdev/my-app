@@ -15,21 +15,24 @@ function writeData(data: any) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const posts = readData();
-  const post = posts.find((p: any) => p.id === Number(params.id));
+  const post = posts.find((p: any) => p.id === Number(id));
 
-  if (!post) return NextResponse.json({ message: "Not found" }, { status: 404 });
+  if (!post)
+    return NextResponse.json({ message: "Not found" }, { status: 404 });
   return NextResponse.json(post);
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const posts = readData();
-  const index = posts.findIndex((p: any) => p.id === Number(params.id));
+  const index = posts.findIndex((p: any) => p.id === Number(id));
 
   if (index === -1)
     return NextResponse.json({ message: "Not found" }, { status: 404 });
@@ -43,10 +46,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const posts = readData();
-  const filtered = posts.filter((p: any) => p.id !== Number(params.id));
+  const filtered = posts.filter((p: any) => p.id !== Number(id));
 
   if (filtered.length === posts.length)
     return NextResponse.json({ message: "Not found" }, { status: 404 });

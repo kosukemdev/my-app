@@ -1,4 +1,3 @@
-// app/page.tsx (トップページ雛形)
 import Link from "next/link";
 import Image from "next/image";
 
