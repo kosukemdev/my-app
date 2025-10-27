@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import RippleButton from "./components/RippleButton";
 
 export const metadata = {
   title: "Home | Kosuke Masaki Portfolio",
@@ -20,11 +21,14 @@ export default function Home() {
             Webアプリを開発中。
           </p>
           <div className="flex gap-4 mt-4">
-            <Link href="/works">
-              <button className="px-6 py-2 bg-[#918DB1] text-[#323b50] font-semibold rounded hover:bg-[#7787aa] hover:text-white transition cursor-pointer">
-                Worksを見る
-              </button>
-            </Link>
+            <RippleButton
+              href="/works"
+              color="bg-[#918DB1]"
+              hoverColor="hover:bg-[#7787aa]"
+              textColor="text-[#323b50] hover:text-white"
+            >
+              Worksを見る
+            </RippleButton>
           </div>
         </div>
         {/* 右カラム：プロフィール画像 */}

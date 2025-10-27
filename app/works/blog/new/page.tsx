@@ -69,7 +69,7 @@ export default function NewPostPage() {
               公開
             </label>
             <label className="flex items-center gap-1">
-              <input type="radio" value="draft" {...register("status")} />
+              <input type="radio" value="draft" {...register("status")} checked />
               下書き
             </label>
           </div>

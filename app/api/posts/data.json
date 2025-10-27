@@ -39,7 +39,7 @@
     "tags": [
       "Tech"
     ],
-    "status": "published",
+    "status": "draft",
     "createdAt": "2025-10-25T07:10:57.627Z"
   },
   {
@@ -64,20 +64,21 @@
     "createdAt": "2025-10-26T02:36:52.585Z"
   },
   {
-    "id": 9,
-    "title": "下書きのテスト",
-    "content": "これは下書きです。",
-    "status": "draft",
-    "createdAt": "2025-10-26T07:20:47.364Z"
-  },
-  {
     "id": 10,
     "title": "下書きリストに表示されるか",
     "content": "どうかな",
     "tags": [
       "React"
     ],
-    "status": "draft",
+    "status": "published",
     "createdAt": "2025-10-26T07:32:15.674Z"
+  },
+  {
+    "id": 11,
+    "title": "tag無しテスト",
+    "content": "テスト内容",
+    "tags": [],
+    "status": "draft",
+    "createdAt": "2025-10-26T12:50:03.455Z"
   }
 ]

@@ -24,7 +24,14 @@ export default function EditPostPage() {
     fetcher
   );
 
-  const { register, handleSubmit, setValue, watch, reset } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
       title: "",
       content: "",
@@ -95,8 +102,11 @@ export default function EditPostPage() {
           <label className="block text-sm font-semibold mb-1">タグ</label>
           <TagInput
             value={Tags}
-            onChange={(newTags) => setValue("tags", newTags)}
+            onChange={(newTags: string[]) => setValue("tags", newTags)}
           />
+          {errors.tags && (
+            <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>
+          )}
         </div>
         <div className="flex justify-between items-center">
           <Link
