@@ -10,6 +10,7 @@ import { useState } from "react";
 
 export default function DraftListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const { data: posts, error } = useSWR<Post[]>("/api/posts", fetcher);
 
   if (error) return <p className="p-6">データ取得に失敗しました</p>;
@@ -27,13 +28,33 @@ export default function DraftListPage() {
       post.status === "draft"
   );
 
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const searchedPosts =
+    normalizedQuery && filteredPosts
+      ? filteredPosts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(normalizedQuery) ||
+            post.content.toLowerCase().includes(normalizedQuery)
+        )
+      : filteredPosts;
+
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">下書き一覧</h1>
-        <Link href="/works/blog" className="text-blue-500 hover:underline">
-          公開記事一覧へ
-        </Link>
+        <div className="flex items-center gap-4">
+          <input
+            aria-label="検索"
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="タイトルまたは本文で検索"
+            className="border px-3 py-1 rounded focus:outline-none"
+          />
+          <Link href="/works/blog" className="text-blue-500 hover:underline">
+            公開記事一覧へ
+          </Link>
+        </div>
       </div>
 
       <TagFilter
@@ -57,7 +78,7 @@ export default function DraftListPage() {
           >
             + 新規投稿
           </Link>
-          <PostList posts={filteredPosts || []} />
+          <PostList posts={searchedPosts || []} />
         </>
       )}
     </div>

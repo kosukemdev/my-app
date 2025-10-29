@@ -11,21 +11,24 @@ export default function TagFilter({
   selectedTags,
   setSelectedTags,
 }: TagFilterProps) {
+
+  const toggleTags = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
   return (
     <div className="flex flex-wrap gap-2 mb-4">
       {allTags.map((tag, i) => (
         <button
           key={`${tag}-${i}`}
           onClick={() => {
-            setSelectedTags((prev) =>
-              prev.includes(tag)
-                ? prev.filter((t) => t !== tag)
-                : [...prev, tag]
-            );
+            toggleTags(tag);
           }}
           className={`px-3 py-1 rounded-full border text-sm transition ${
             selectedTags.includes(tag)
-              ? "bg-blue-600 text-white border-blue-600"
+              ? "bg-blue-500 text-white border-blue-500"
               : "bg-gray-100 hover:bg-gray-200 border-gray-300"
           }`}
         >
@@ -37,7 +40,7 @@ export default function TagFilter({
         onClick={() => setSelectedTags([])}
         className={`px-3 py-1 rounded-full border text-sm transition ${
           selectedTags.length === 0
-            ? "bg-blue-600 text-white border-blue-600"
+            ? "bg-blue-500 text-white border-blue-500"
             : "bg-gray-100 hover:bg-gray-200 border-gray-300"
         }`}
       >
