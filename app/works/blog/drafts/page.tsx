@@ -6,7 +6,9 @@ import { fetcher } from "@/lib/fetcher";
 import { Post } from "@/app/works/blog/page";
 import PostList from "../components/PostList";
 import TagFilter from "../components/TagFilter";
+import WordFilter from "../components/WordFilter";
 import { useState } from "react";
+import { FileText } from "lucide-react";
 
 export default function DraftListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -43,15 +45,16 @@ export default function DraftListPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">下書き一覧</h1>
         <div className="flex items-center gap-4">
-          <input
-            aria-label="検索"
-            type="text"
+          <WordFilter
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="タイトルまたは本文で検索"
-            className="border px-3 py-1 rounded focus:outline-none"
+            onChange={setSearchQuery}
+            debounceMs={300}
           />
-          <Link href="/works/blog" className="text-blue-500 hover:underline">
+          <Link
+            href="/works/blog"
+            className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
+          >
+            <FileText className="inline-block w-4 h-4 mr-1" />
             公開記事一覧へ
           </Link>
         </div>
@@ -65,7 +68,10 @@ export default function DraftListPage() {
 
       {draftPosts.length === 0 ? (
         <>
-          <Link href="/works/blog/new" className="text-blue-500">
+          <Link
+            href="/works/blog/new"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
             + 新規投稿
           </Link>
           <p className="p-6">下書き記事はまだありません。</p>
@@ -74,7 +80,7 @@ export default function DraftListPage() {
         <>
           <Link
             href="/works/blog/new"
-            className="text-blue-500 hover:underline"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             + 新規投稿
           </Link>

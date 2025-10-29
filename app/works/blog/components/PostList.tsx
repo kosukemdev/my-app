@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Post } from "../page";
-// lucide-reactの↑↓アイコン
 import { ArrowUpDown } from "lucide-react";
 
 export default function PostList({ posts }: { posts: Post[] }) {

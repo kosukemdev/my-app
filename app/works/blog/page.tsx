@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useState } from "react";
 import PostList from "./components/PostList";
 import TagFilter from "./components/TagFilter";
+import WordFilter from "./components/WordFilter";
+import { FileText } from "lucide-react";
 
 export type Post = {
   id: string;
@@ -56,15 +58,16 @@ export default function BlogListPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">公開記事一覧</h1>
         <div className="flex items-center gap-4">
-          <input
-            aria-label="検索"
-            type="text"
+          <WordFilter
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="タイトルまたは本文で検索"
-            className="border px-3 py-1 rounded focus:outline-none"
+            onChange={setSearchQuery}
+            debounceMs={300}
           />
-          <Link href="/works/blog/drafts" className="text-blue-600 hover:underline">
+          <Link
+            href="/works/blog/drafts"
+            className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
+          >
+            <FileText className="inline-block w-4 h-4 mr-1" />
             下書き一覧へ
           </Link>
         </div>
@@ -74,7 +77,10 @@ export default function BlogListPage() {
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
       />
-      <Link href="/works/blog/new" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      <Link
+        href="/works/blog/new"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
         + 新規投稿
       </Link>
       <PostList posts={searchedPosts || []} />
