@@ -8,7 +8,8 @@
     ],
     "status": "published",
     "createdAt": "2025-10-07T10:00:00Z",
-    "updatedAt": "2025-10-07T10:00:00Z"
+    "liked": false,
+    "likes": 7
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
     ],
     "status": "published",
     "createdAt": "2025-10-07T10:00:00Z",
-    "updatedAt": "2025-10-07T10:00:00Z"
+    "liked": false,
+    "likes": 1
   },
   {
     "id": 3,
@@ -30,7 +32,7 @@
     ],
     "status": "published",
     "createdAt": "2025-10-07T10:00:00Z",
-    "updatedAt": "2025-10-07T10:00:00Z"
+    "liked": false
   },
   {
     "id": 4,
@@ -40,7 +42,8 @@
       "Tech"
     ],
     "status": "draft",
-    "createdAt": "2025-10-25T07:10:57.627Z"
+    "createdAt": "2025-10-25T07:10:57.627Z",
+    "liked": false
   },
   {
     "id": 7,
@@ -50,7 +53,8 @@
       "zod"
     ],
     "status": "published",
-    "createdAt": "2025-10-26T00:25:47.200Z"
+    "createdAt": "2025-10-26T00:25:47.200Z",
+    "liked": false
   },
   {
     "id": 8,
@@ -61,7 +65,8 @@
       "Next.js"
     ],
     "status": "published",
-    "createdAt": "2025-10-26T02:36:52.585Z"
+    "createdAt": "2025-10-26T02:36:52.585Z",
+    "liked": false
   },
   {
     "id": 10,
@@ -71,7 +76,8 @@
       "React"
     ],
     "status": "published",
-    "createdAt": "2025-10-26T07:32:15.674Z"
+    "createdAt": "2025-10-26T07:32:15.674Z",
+    "liked": false
   },
   {
     "id": 11,
@@ -79,6 +85,7 @@
     "content": "テスト内容",
     "tags": [],
     "status": "draft",
-    "createdAt": "2025-10-26T12:50:03.455Z"
+    "createdAt": "2025-10-26T12:50:03.455Z",
+    "liked": false
   }
 ]

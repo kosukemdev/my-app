@@ -84,7 +84,7 @@ export default function DraftListPage() {
           >
             + 新規投稿
           </Link>
-          <PostList posts={searchedPosts || []} />
+          <PostList posts={searchedPosts || []} showLikeButton={false} />
         </>
       )}
     </div>

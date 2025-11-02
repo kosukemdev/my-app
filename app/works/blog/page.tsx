@@ -16,6 +16,7 @@ export type Post = {
   tags: string[];
   status: string;
   createdAt: string;
+  liked: boolean;
 };
 
 export default function BlogListPage() {
@@ -83,7 +84,7 @@ export default function BlogListPage() {
       >
         + 新規投稿
       </Link>
-      <PostList posts={searchedPosts || []} />
+      <PostList posts={searchedPosts || []} showLikeButton={true} />
     </div>
   );
 }
