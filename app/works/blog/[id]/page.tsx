@@ -26,7 +26,10 @@ export default async function DetailPage({
         <h1 className="text-3xl font-bold">{post.title}</h1>
         <p className="text-gray-500 mt-2">
           {post.tags?.map((tag) => (
-            <span key={tag} className="mr-2">
+            <span
+              key={tag}
+              className="text-sm bg-gray-100 px-2 py-1 rounded-full mr-2 inline-block"
+            >
               #{tag}
             </span>
           ))}

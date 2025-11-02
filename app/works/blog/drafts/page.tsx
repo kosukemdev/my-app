@@ -42,9 +42,9 @@ export default function DraftListPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-4">
-      <div className="flex justify-between items-center mb-6">
+      <div className="md:flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">下書き一覧</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-4 md:mt-0">
           <WordFilter
             value={searchQuery}
             onChange={setSearchQuery}
@@ -52,7 +52,7 @@ export default function DraftListPage() {
           />
           <Link
             href="/works/blog"
-            className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
+            className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer text-sm text-nowrap"
           >
             <FileText className="inline-block w-4 h-4 mr-1" />
             公開記事一覧へ

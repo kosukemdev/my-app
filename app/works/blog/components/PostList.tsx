@@ -7,7 +7,13 @@ import { Post } from "../page";
 import { ArrowUpDown } from "lucide-react";
 import { mutate } from "swr";
 
-export default function PostList({ posts, showLikeButton }: { posts: Post[]; showLikeButton: boolean }) {
+export default function PostList({
+  posts,
+  showLikeButton,
+}: {
+  posts: Post[];
+  showLikeButton: boolean;
+}) {
   const [isAscending, setIsAscending] = useState(true);
   const toggleSortOrder = () => {
     setIsAscending((prev) => !prev);
@@ -88,7 +94,7 @@ export default function PostList({ posts, showLikeButton }: { posts: Post[]; sho
                     {post.tags?.map((t: string, i: number) => (
                       <span
                         key={`${t}-${i}`}
-                        className="text-sm bg-gray-100 px-2 py-1 rounded-full"
+                        className="text-sm bg-gray-100 px-2 py-1 rounded-full mr-2 inline-block"
                       >
                         #{t}
                       </span>
@@ -101,12 +107,12 @@ export default function PostList({ posts, showLikeButton }: { posts: Post[]; sho
                   {new Date(post.createdAt).toLocaleDateString("ja-JP")}
                 </p>
                 {showLikeButton && (
-                <button
-                  onClick={() => toggleLike(post.id)}
-                  className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
-                >
-                  {post.liked ? "♥" : "♡"}
-                </button>
+                  <button
+                    onClick={() => toggleLike(post.id)}
+                    className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
+                  >
+                    {post.liked ? "♥" : "♡"}
+                  </button>
                 )}
               </div>
             </motion.div>

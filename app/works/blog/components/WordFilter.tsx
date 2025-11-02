@@ -32,7 +32,7 @@ export default function WordFilter({
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       placeholder="タイトルまたは本文で検索"
-      className="border px-3 py-1 rounded focus:outline-none"
+      className="border px-3 py-1 rounded focus:outline-none text-sm md:text-base"
     />
   );
 }
