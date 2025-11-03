@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import Link from "next/link";
 import { fetcher } from "@/lib/fetcher";
-import { Post } from "@/app/works/blog/page";
+import { Post } from "@/types/post";
 import PostList from "../components/PostList";
 import TagFilter from "../components/TagFilter";
 import WordFilter from "../components/WordFilter";

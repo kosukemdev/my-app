@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Post } from "../page";
+import { Post } from "@/types/post";
 import { ArrowUpDown } from "lucide-react";
 import { mutate } from "swr";
 
@@ -85,8 +85,8 @@ export default function PostList({
               layout
               whileHover={{ scale: 1.002 }}
             >
-              <div>
-                <Link href={`/works/blog/${post.id}`} className="space-y-2">
+              <Link href={`/works/blog/${post.id}`}>
+                <div>
                   <h2 className="text-xl font-semibold hover:underline">
                     {post.title}
                   </h2>
@@ -100,21 +100,21 @@ export default function PostList({
                       </span>
                     ))}
                   </p>
-                </Link>
-              </div>
-              <div className="flex justify-between items-center mt-4">
-                <p className="text-xs text-gray-500">
-                  {new Date(post.createdAt).toLocaleDateString("ja-JP")}
-                </p>
-                {showLikeButton && (
-                  <button
-                    onClick={() => toggleLike(post.id)}
-                    className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
-                  >
-                    {post.liked ? "♥" : "♡"}
-                  </button>
-                )}
-              </div>
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                  <p className="text-xs text-gray-500">
+                    {new Date(post.createdAt).toLocaleDateString("ja-JP")}
+                  </p>
+                  {showLikeButton && (
+                    <button
+                      onClick={() => toggleLike(post.id)}
+                      className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
+                    >
+                      {post.liked ? "♥" : "♡"}
+                    </button>
+                  )}
+                </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

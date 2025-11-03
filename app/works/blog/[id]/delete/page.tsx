@@ -5,7 +5,7 @@ import useSWR, { mutate } from "swr";
 import { fetcher } from "@/lib/fetcher";
 import { useState } from "react";
 import Link from "next/link";
-import { Post } from "@/app/works/blog/page";
+import { Post } from "@/types/post";
 
 export default function DeletePostPage() {
   const { id } = useParams();

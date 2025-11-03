@@ -1,30 +1,45 @@
 import { NextResponse } from "next/server";
-import fs, { read } from "fs";
-import path from "path";
+import { supabase } from "@/lib/supabaseClient";
 
-const filePath = path.join(process.cwd(), "app/api/posts/data.json");
-
-function readData() {
-  const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-}
-
-function writeData(data: any) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-}
-
+// PATCH /api/posts/like
 export async function PATCH(req: Request) {
-  const {id} = await req.json();
-  const posts = readData();
+  try {
+    const { id } = await req.json();
 
-  const post = posts.find((p: any) => p.id === id);
-  if (!post) {
-    return NextResponse.json({ message: "投稿が見つかりませんでした。" }, { status: 404 });
+    // まず対象の投稿を取得
+    const { data: post, error: fetchError } = await supabase
+      .from("posts")
+      .select("liked")
+      .eq("id", id)
+      .single();
+
+    if (fetchError || !post) {
+      return NextResponse.json(
+        { message: "投稿が見つかりませんでした。" },
+        { status: 404 }
+      );
+    }
+
+    // likedをトグル（true → false、false → true）
+    const newLiked = !post.liked;
+
+    // 更新
+    const { error: updateError } = await supabase
+      .from("posts")
+      .update({ liked: newLiked })
+      .eq("id", id);
+
+    if (updateError) {
+      console.error(updateError.message);
+      return NextResponse.json(
+        { message: "更新に失敗しました。" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ id, liked: newLiked });
+  } catch (err: any) {
+    console.error("PATCH Error:", err.message);
+    return NextResponse.json({ message: "不正なリクエストです。" }, { status: 400 });
   }
-
-  // いいねをトグル
-  post.liked = !post.liked;
-  writeData(posts);
-
-  return NextResponse.json(post);
 }

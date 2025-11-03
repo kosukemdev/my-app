@@ -1,43 +1,73 @@
-import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabaseClient";
+import { Post } from "@/types/post";
 
-const filePath = path.join(process.cwd(), "app/api/posts/data.json");
+// ✅ 一覧取得（GET）
+export async function GET() {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-function readData() {
-  const data = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(data);
+  if (error) {
+    console.error("Error fetching posts:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // created_at → createdAt に変換して整形
+  const posts: Post[] =
+    data?.map((p) => ({
+      id: p.id,
+      title: p.title,
+      content: p.content,
+      tags: p.tags ?? [],
+      status: p.status ?? "draft",
+      createdAt: p.created_at,
+      liked: p.liked ?? false,
+    })) ?? [];
+
+  return NextResponse.json(posts);
 }
 
-function writeData(data: any) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
+// ✅ 新規投稿（POST）
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { title, content, tags, status, liked } = body;
 
-export async function GET(request: NextRequest) {
-  const posts = readData();
-  const { searchParams } = new URL(request.url);
-  const tag = searchParams.get("tag");
+    const { data, error } = await supabase
+      .from("posts")
+      .insert([
+        {
+          title,
+          content,
+          tags: tags ?? [],
+          status: status ?? "draft",
+          created_at: new Date().toISOString(),
+          liked: liked ?? false,
+        },
+      ])
+      .select("*")
+      .single();
 
-  const filtered = tag ? posts.filter((p: any) => p.tags?.includes(tag)) : posts;
+    if (error) {
+      console.error("Error creating post:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
-  return NextResponse.json(filtered);
-}
+    const post: Post = {
+      id: data.id,
+      title: data.title,
+      content: data.content,
+      tags: data.tags ?? [],
+      status: data.status,
+      createdAt: data.created_at,
+      liked: data.liked,
+    };
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const posts = readData();
-
-  const newPost = {
-    id: posts.length ? Math.max(...posts.map((p: any) => p.id)) + 1 : 1,
-    title: body.title,
-    content: body.content,
-    tags: body.tags || [],
-    status: body.status || "draft",
-    createdAt: new Date().toISOString(),
-  };
-
-  posts.push(newPost);
-  writeData(posts);
-
-  return NextResponse.json(newPost, {status: 201});
+    return NextResponse.json(post, { status: 201 });
+  } catch (err: any) {
+    console.error("POST Error:", err.message);
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
 }

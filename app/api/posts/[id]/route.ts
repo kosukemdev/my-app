@@ -1,60 +1,80 @@
-import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabaseClient";
+import { Post } from "@/types/post";
 
-const filePath = path.join(process.cwd(), "app/api/posts/data.json");
-
-function readData() {
-  const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-}
-
-function writeData(data: any) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
+// ✅ 投稿詳細取得（GET）
 export async function GET(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  _req: Request,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await context.params;
-  const posts = readData();
-  const post = posts.find((p: any) => p.id === Number(id));
+  const { id } = (await params) as { id: string };
 
-  if (!post)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) {
+    console.error("Error fetching post:", error?.message);
+    return NextResponse.json({ error: error?.message ?? "Not found" }, { status: 404 });
+  }
+
+  const post: Post = {
+    id: data.id,
+    title: data.title,
+    content: data.content,
+    tags: data.tags ?? [],
+    status: data.status ?? "draft",
+    createdAt: data.created_at,
+    liked: data.liked ?? false,
+  };
+
   return NextResponse.json(post);
 }
 
+// ✅ 投稿更新（PUT）
 export async function PUT(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await context.params;
-  const posts = readData();
-  const index = posts.findIndex((p: any) => p.id === Number(id));
+  try {
+    const { title, content, tags, status, liked } = await req.json();
 
-  if (index === -1)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
+    const { id } = (await params) as { id: string };
 
-  const body = await req.json();
-  posts[index] = { ...posts[index], ...body };
-  writeData(posts);
+    const { data, error } = await supabase
+      .from("posts")
+      .update({ title, content, tags, status, liked })
+      .eq("id", id)
+      .select("*")
+      .single();
 
-  return NextResponse.json(posts[index]);
+    if (error) {
+      console.error("Error updating post:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data);
+  } catch (err: any) {
+    console.error("PUT Error:", err.message);
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
 }
 
+// ✅ 投稿削除（DELETE）
 export async function DELETE(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  _req: Request,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await context.params;
-  const posts = readData();
-  const filtered = posts.filter((p: any) => p.id !== Number(id));
+  const { id } = (await params) as { id: string };
 
-  if (filtered.length === posts.length)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
+  const { error } = await supabase.from("posts").delete().eq("id", id);
 
-  writeData(filtered);
-  return NextResponse.json({ message: "削除しました" });
+  if (error) {
+    console.error("Error deleting post:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ message: "Deleted successfully" });
 }

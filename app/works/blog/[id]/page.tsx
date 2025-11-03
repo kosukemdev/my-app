@@ -1,19 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Post } from "../page";
+import { Post } from "@/types/post";
 
 export default async function DetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const { id } = await params;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${id}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const { id } = (await params) as { id: string };
+
+    const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/api/posts/${id}`, {
+    cache: "no-store",
+  });
+
 
   if (!res.ok) {
     return notFound();

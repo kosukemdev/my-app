@@ -8,16 +8,7 @@ import PostList from "./components/PostList";
 import TagFilter from "./components/TagFilter";
 import WordFilter from "./components/WordFilter";
 import { FileText } from "lucide-react";
-
-export type Post = {
-  id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  status: string;
-  createdAt: string;
-  liked: boolean;
-};
+import { Post } from "../../../types/post";
 
 export default function BlogListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
