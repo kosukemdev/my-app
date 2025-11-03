@@ -79,14 +79,14 @@ export default function PostList({
           transition={{ duration: 0.1 }}
         >
           {sortedPosts.map((post) => (
-            <motion.div
-              key={post.id}
-              className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition grid grid-cols-1"
-              layout
-              whileHover={{ scale: 1.002 }}
-            >
-              <Link href={`/works/blog/${post.id}`}>
-                <div>
+            <>
+              <motion.div
+                key={post.id}
+                className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition grid grid-cols-1"
+                layout
+                whileHover={{ scale: 1.002 }}
+              >
+                <Link href={`/works/blog/${post.id}`}>
                   <h2 className="text-xl font-semibold hover:underline">
                     {post.title}
                   </h2>
@@ -100,22 +100,20 @@ export default function PostList({
                       </span>
                     ))}
                   </p>
-                </div>
-                <div className="flex justify-between items-center mt-4">
                   <p className="text-xs text-gray-500">
                     {new Date(post.createdAt).toLocaleDateString("ja-JP")}
                   </p>
-                  {showLikeButton && (
-                    <button
-                      onClick={() => toggleLike(post.id)}
-                      className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
-                    >
-                      {post.liked ? "♥" : "♡"}
-                    </button>
-                  )}
-                </div>
-              </Link>
-            </motion.div>
+                </Link>
+              </motion.div>
+              {showLikeButton && (
+                <button
+                  onClick={() => toggleLike(post.id)}
+                  className={`block ml-auto hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
+                >
+                  {post.liked ? "♥" : "♡"}
+                </button>
+              )}
+            </>
           ))}
         </motion.div>
       </AnimatePresence>
