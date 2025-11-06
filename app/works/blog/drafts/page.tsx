@@ -2,8 +2,8 @@
 
 import useSWR from "swr";
 import Link from "next/link";
-import { fetcher } from "@/lib/fetcher";
-import { Post } from "@/types/post";
+import { fetcher } from "@/app/works/blog/lib/fetcher";
+import { Post } from "@/app/works/blog/types/post";
 import PostList from "../components/PostList";
 import TagFilter from "../components/TagFilter";
 import WordFilter from "../components/WordFilter";
@@ -13,7 +13,7 @@ import { FileText } from "lucide-react";
 export default function DraftListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { data: posts, error } = useSWR<Post[]>("/api/posts", fetcher);
+  const { data: posts, error } = useSWR<Post[]>("/works/blog/api/posts", fetcher);
 
   if (error) return <p className="p-6">データ取得に失敗しました</p>;
   if (!posts) return <p className="p-6">読み込み中...</p>;

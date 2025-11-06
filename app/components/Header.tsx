@@ -2,10 +2,23 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
+  const pathname = usePathname() ?? "/";
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+  };
 
   return (
     <header
@@ -18,25 +31,52 @@ export default function Header() {
       </h2>
 
       {/* デスクトップナビ */}
-      <nav className="space-x-6 hidden md:flex">
+      <nav className="space-x-6 hidden md:flex md:items-center">
         <Link
           href="/"
-          className="hover:text-yellow-500 transition-colors duration-300"
+          className="relative group"
+          aria-current={isActive("/") ? "page" : undefined}
         >
           Home
+          <span
+            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+              isActive("/") ? "w-full" : "w-0 group-hover:w-full"
+            }`}
+          ></span>
         </Link>
-        <Link
-          href="/about"
-          className="hover:text-yellow-500 transition-colors duration-300"
-        >
+        <Link href="/about" className="relative group" aria-current={isActive("/about") ? "page" : undefined}>
           About
+          <span
+            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+              isActive("/about") ? "w-full" : "w-0 group-hover:w-full"
+            }`}
+          ></span>
         </Link>
-        <Link
-          href="/works"
-          className="hover:text-yellow-500 transition-colors duration-300"
-        >
+        <Link href="/works" className="relative group" aria-current={isActive("/works") ? "page" : undefined}>
           Works
+          <span
+            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+              isActive("/works") ? "w-full" : "w-0 group-hover:w-full"
+            }`}
+          ></span>
         </Link>
+        {session ? (
+          <div>
+            <button
+              onClick={handleLogout}
+              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+            >
+              ログアウト
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+          >
+            ログイン
+          </Link>
+        )}
       </nav>
 
       <div className="flex items-center space-x-2 md:hidden">
@@ -65,22 +105,25 @@ export default function Header() {
       >
         <Link
           href="/"
-          className="py-2 hover:text-yellow-500 transition-colors duration-300"
+          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
+          aria-current={isActive("/") ? "page" : undefined}
         >
           Home
         </Link>
         <Link
           href="/about"
-          className="py-2 hover:text-yellow-500 transition-colors duration-300"
+          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/about") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
+          aria-current={isActive("/about") ? "page" : undefined}
         >
           About
         </Link>
         <Link
           href="/works"
-          className="py-2 hover:text-yellow-500 transition-colors duration-300"
+          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/works") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
+          aria-current={isActive("/works") ? "page" : undefined}
         >
           Works
         </Link>

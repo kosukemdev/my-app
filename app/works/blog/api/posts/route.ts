@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
-import { Post } from "@/types/post";
+import { supabase } from "@/app/works/blog/lib/supabaseClient";
+import { Post } from "@/app/works/blog/types/post";
 
-// ✅ 一覧取得（GET）
 export async function GET() {
   const { data, error } = await supabase
     .from("posts")
@@ -14,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // created_at → createdAt に変換して整形
+  // created_at → createdAtに変換
   const posts: Post[] =
     data?.map((p) => ({
       id: p.id,
@@ -29,7 +28,6 @@ export async function GET() {
   return NextResponse.json(posts);
 }
 
-// ✅ 新規投稿（POST）
 export async function POST(req: Request) {
   try {
     const body = await req.json();

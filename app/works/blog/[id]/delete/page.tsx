@@ -2,16 +2,16 @@
 
 import { useRouter, useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
-import { fetcher } from "@/lib/fetcher";
+import { fetcher } from "@/app/works/blog/lib/fetcher";
 import { useState } from "react";
 import Link from "next/link";
-import { Post } from "@/types/post";
+import { Post } from "@/app/works/blog/types/post";
 
 export default function DeletePostPage() {
   const { id } = useParams();
   const router = useRouter();
   const { data: post, error } = useSWR<Post>(
-    id ? `/api/posts/${id}` : null,
+    id ? `/works/blog/api/posts/${id}` : null,
     fetcher
   );
   const [isDeleting, setIsDeleting] = useState(false);
@@ -21,14 +21,14 @@ export default function DeletePostPage() {
 
     setIsDeleting(true);
     try {
-      const res = await fetch(`/api/posts/${id}`, {
+      const res = await fetch(`/works/blog/api/posts/${id}`, {
         method: "DELETE",
       });
 
       if (!res.ok) throw new Error("削除に失敗しました");
 
       mutate(
-        "/api/posts",
+        "/works/blog/api/posts",
         (prev?: Post[]) => prev?.filter((p) => p.id !== id) ?? [],
         false
       );

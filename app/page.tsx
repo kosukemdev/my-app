@@ -1,18 +1,11 @@
-import Link from "next/link";
-import Image from "next/image";
-import RippleButton from "./components/RippleButton";
+'use client';
 
-export const metadata = {
-  title: "Home | Kosuke Masaki Portfolio",
-  description: "トップページです。",
-};
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-gray-800 px-4">
-      {/* Hero Section */}
       <section className="max-w-4xl w-full flex flex-col md:flex-row items-center gap-8">
-        {/* 左カラム：テキスト */}
         <div className="flex-1">
           <p className="text-lg text-gray-400">Frontend Engineer</p>
           <h2 className="text-4xl md:text-5xl font-bold mt-2">正木 洸介</h2>
@@ -20,21 +13,9 @@ export default function Home() {
             Next.js / React / TypeScript / Tailwind / SWR / Zustand を使って
             Webアプリを開発中。
           </p>
-          <div className="flex gap-4 mt-4">
-            <RippleButton
-              href="/works"
-              color="bg-[#918DB1]"
-              hoverColor="hover:bg-[#7787aa]"
-              textColor="text-[#323b50] hover:text-white"
-            >
-              Worksを見る
-            </RippleButton>
-          </div>
         </div>
-        {/* 右カラム：プロフィール画像 */}
         <div className="flex-1 flex justify-center">
           <div className="w-64 h-64">
-            {/* ここにプロフィール画像を置く */}
             <Image
               src="/thumbnails/sample.png"
               alt="プロフィール"
@@ -43,23 +24,6 @@ export default function Home() {
               height={256}
             />
           </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section className="mt-16 max-w-4xl w-full">
-        <h3 className="text-2xl font-semibold mb-4">Skills</h3>
-        <div className="flex flex-wrap gap-2">
-          {["React", "Next.js", "TypeScript", "Tailwind", "SWR", "Zustand"].map(
-            (skill) => (
-              <span
-                key={skill}
-                className="px-3 py-1 bg-gray-50 text-gray-800 rounded-full text-sm border border-gray-300"
-              >
-                {skill}
-              </span>
-            )
-          )}
         </div>
       </section>
     </div>

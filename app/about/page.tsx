@@ -1,14 +1,13 @@
-// app/about/page.tsx
+'use client';
+
 import Image from "next/image";
 import { Github, Download, Mail, Code, Box } from "lucide-react";
 import Link from "next/link";
-
-export const metadata = {
-  title: "About | Kosuke Masaki Portfolio",
-  description: "",
-};
+import { useSession } from "next-auth/react";
 
 export default function AboutPage() {
+  const { data: session } = useSession();
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-12 space-y-16">
       {/* Heroセクション */}
@@ -52,14 +51,16 @@ export default function AboutPage() {
             <a
               href="/resume.pdf"
               download
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
+              aria-disabled={!session}
             >
               <Download className="w-5 h-5" />
               <span>履歴書 / Resume</span>
             </a>
             <a
               href="mailto:kosuke.m.dev@gmail"
-              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-full font-medium hover:bg-green-700 transition"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
+              aria-disabled={!session}
             >
               <Mail className="w-5 h-5" />
               <span>メール</span>
@@ -103,7 +104,7 @@ export default function AboutPage() {
           ].map(({ name, icon: Icon }) => (
             <li
               key={name}
-              className="flex items-center justify-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium hover:bg-gray-200 transition"
+              className="flex items-center justify-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium cursor-default"
             >
               <Icon className="w-4 h-4" />
               {name}

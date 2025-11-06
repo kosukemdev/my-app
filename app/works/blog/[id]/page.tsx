@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Post } from "@/types/post";
+import { Post } from "@/app/works/blog/types/post";
 
 export default async function DetailPage({
   params,
@@ -9,14 +9,15 @@ export default async function DetailPage({
 }) {
   const { id } = (await params) as { id: string };
 
-    const baseUrl =
+  const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
 
   const res = await fetch(`${baseUrl.replace(/\/$/, "")}/api/posts/${id}`, {
     cache: "no-store",
   });
-
 
   if (!res.ok) {
     return notFound();
@@ -37,6 +38,9 @@ export default async function DetailPage({
             </span>
           ))}
         </p>
+        <p className="text-xs text-gray-500 mt-2">
+          {new Date(post.createdAt).toLocaleDateString("ja-JP")}
+        </p>
       </div>
 
       <div className="border-t pt-4 text-gray-800 leading-relaxed whitespace-pre-wrap">
@@ -47,21 +51,6 @@ export default async function DetailPage({
         <Link href="/works/blog" className="text-blue-500 hover:underline">
           ← 一覧に戻る
         </Link>
-
-        <div className="flex gap-3">
-          <Link
-            href={`/works/blog/${post.id}/edit`}
-            className="text-sm bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-          >
-            編集
-          </Link>
-          <Link
-            href={`/works/blog/${post.id}/delete`}
-            className="text-sm bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            削除
-          </Link>
-        </div>
       </div>
     </div>
   );

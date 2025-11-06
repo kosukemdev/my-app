@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/app/works/blog/lib/supabaseClient";
 
-// PATCH /api/posts/like
 export async function PATCH(req: Request) {
   try {
     const { id } = await req.json();
 
-    // まず対象の投稿を取得
+    // 対象の投稿を取得
     const { data: post, error: fetchError } = await supabase
       .from("posts")
       .select("liked")

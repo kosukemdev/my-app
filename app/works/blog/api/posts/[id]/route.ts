@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
-import { Post } from "@/types/post";
+import { supabase } from "@/app/works/blog/lib/supabaseClient";
+import { Post } from "@/app/works/blog/types/post";
 
-// ✅ 投稿詳細取得（GET）
 export async function GET(
   _req: Request,
   { params }: { params: { id: string } }
@@ -33,7 +32,6 @@ export async function GET(
   return NextResponse.json(post);
 }
 
-// ✅ 投稿更新（PUT）
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
@@ -62,7 +60,6 @@ export async function PUT(
   }
 }
 
-// ✅ 投稿削除（DELETE）
 export async function DELETE(
   _req: Request,
   { params }: { params: { id: string } }
