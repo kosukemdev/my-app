@@ -7,7 +7,8 @@ export default async function DetailPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = (await params) as { id: string };
+  // params is passed directly — no need to await
+  const { id } = params;
 
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ??
@@ -15,9 +16,12 @@ export default async function DetailPage({
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000");
 
-  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/api/posts/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${baseUrl.replace(/\/$/, "")}/works/blog/api/posts/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     return notFound();
