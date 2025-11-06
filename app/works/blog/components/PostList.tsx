@@ -81,10 +81,9 @@ export default function PostList({
           transition={{ duration: 0.1 }}
         >
           {sortedPosts.map((post) => (
-            <>
+            <div key={post.id} className="not-first:mt-2">
               <motion.div
-                key={post.id}
-                className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition grid grid-cols-1 not-first:mt-4"
+                className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition grid grid-cols-1"
                 layout
                 whileHover={{ scale: 1.002 }}
               >
@@ -132,7 +131,7 @@ export default function PostList({
                   )}
                 </div>
               )}
-            </>
+            </div>
           ))}
         </motion.div>
       </AnimatePresence>

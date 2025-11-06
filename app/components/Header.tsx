@@ -44,7 +44,11 @@ export default function Header() {
             }`}
           ></span>
         </Link>
-        <Link href="/about" className="relative group" aria-current={isActive("/about") ? "page" : undefined}>
+        <Link
+          href="/about"
+          className="relative group"
+          aria-current={isActive("/about") ? "page" : undefined}
+        >
           About
           <span
             className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
@@ -52,7 +56,11 @@ export default function Header() {
             }`}
           ></span>
         </Link>
-        <Link href="/works" className="relative group" aria-current={isActive("/works") ? "page" : undefined}>
+        <Link
+          href="/works"
+          className="relative group"
+          aria-current={isActive("/works") ? "page" : undefined}
+        >
           Works
           <span
             className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
@@ -127,6 +135,23 @@ export default function Header() {
         >
           Works
         </Link>
+        {session ? (
+          <div>
+            <button
+              onClick={handleLogout}
+              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+            >
+              ログアウト
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+          >
+            ログイン
+          </Link>
+        )}
       </nav>
     </header>
   );
