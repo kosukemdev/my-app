@@ -72,7 +72,7 @@ export default function Header() {
           <div>
             <button
               onClick={handleLogout}
-              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300 font-medium cursor-pointer"
             >
               ログアウト
             </button>
@@ -80,7 +80,7 @@ export default function Header() {
         ) : (
           <Link
             href="/login"
-            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300 font-medium cursor-pointer"
           >
             ログイン
           </Link>

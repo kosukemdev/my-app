@@ -26,7 +26,7 @@ export default function BlogListPage() {
   );
   const { data: session } = useSession();
 
-  if (error) return <p>記事の読み込みに失敗しました</p>;
+  if (error) return <p>日報の読み込みに失敗しました</p>;
   if (!posts) return <p>読み込み中...</p>;
 
   const allTags = Array.from(
@@ -52,7 +52,7 @@ export default function BlogListPage() {
   return (
     <div className="p-6 space-y-4 max-w-3xl mx-auto">
       <div className="md:flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">公開記事一覧</h1>
+        <h1 className="text-2xl font-bold">業務日報</h1>
         <div className="flex items-center gap-4 mt-4 md:mt-0">
           <WordFilter
             value={searchQuery}
@@ -78,9 +78,9 @@ export default function BlogListPage() {
       {session && (
         <Link
           href="/works/blog/new"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
         >
-          + 新規投稿
+          + 日報を書く
         </Link>
       )}
       <PostList posts={searchedPosts || []} showLikeButton={true} />

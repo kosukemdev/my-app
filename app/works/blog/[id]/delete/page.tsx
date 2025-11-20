@@ -48,8 +48,8 @@ export default function DeletePostPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">記事の削除</h1>
-      <p className="mb-6">本当にこの記事を削除してもよろしいですか？</p>
+      <h1 className="text-2xl font-bold mb-4">日報の削除</h1>
+      <p className="mb-6">本当にこの日報を削除してもよろしいですか？</p>
 
       <div className="border p-4 rounded bg-gray-50 mb-6">
         <h2 className="text-lg font-semibold">{post.title}</h2>
@@ -64,10 +64,7 @@ export default function DeletePostPage() {
       </div>
 
       <div className="flex justify-between">
-        <Link
-          href={`/works/blog/${id}`}
-          className="text-blue-500 hover:underline"
-        >
+        <Link href={"/works/blog"} className="text-blue-500 hover:underline">
           ← 戻る
         </Link>
         <button

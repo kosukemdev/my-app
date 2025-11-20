@@ -70,7 +70,7 @@ export default function PostList({
         className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
       >
         <ArrowUpDown className="inline-block w-4 h-4 mr-1" />
-        {isAscending ? "古い順" : "新しい順"}
+        {isAscending ? "日付：古い順" : "日付：新しい順"}
       </button>
       <AnimatePresence mode="wait">
         <motion.div
@@ -100,7 +100,7 @@ export default function PostList({
                     ))}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {new Date(post.createdAt).toLocaleDateString("ja-JP")}
+                    作成日：{new Date(post.createdAt).toLocaleDateString("ja-JP")}
                   </p>
                 </Link>
               </motion.div>
@@ -110,7 +110,7 @@ export default function PostList({
                     href={`/works/blog/${post.id}/edit`}
                     className="text-sm bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
                   >
-                    編集
+                    日報を編集
                   </Link>
                   <Link
                     href={`/works/blog/${post.id}/delete`}

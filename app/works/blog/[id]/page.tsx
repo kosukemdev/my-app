@@ -7,7 +7,6 @@ export default async function DetailPage({
 }: {
   params: { id: string };
 }) {
-  // params is passed directly — no need to await
   const { id } = params;
 
   const baseUrl =
@@ -42,8 +41,8 @@ export default async function DetailPage({
             </span>
           ))}
         </p>
-        <p className="text-xs text-gray-500 mt-2">
-          {new Date(post.createdAt).toLocaleDateString("ja-JP")}
+        <p className="mt-2">
+          作成日：{new Date(post.createdAt).toLocaleDateString("ja-JP")}
         </p>
       </div>
 

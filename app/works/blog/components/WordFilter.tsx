@@ -31,7 +31,7 @@ export default function WordFilter({
       type="text"
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
-      placeholder="タイトルまたは本文で検索"
+      placeholder="キーワード検索"
       className="border px-3 py-1 rounded focus:outline-none text-sm md:text-base"
     />
   );

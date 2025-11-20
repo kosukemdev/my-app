@@ -56,16 +56,15 @@ export default function PostForm({
         <div className="flex gap-4">
           <label className="flex items-center gap-1">
             <input type="radio" value="published" {...register("status")} />
-            公開
+            提出済み
           </label>
           <label className="flex items-center gap-1">
             <input type="radio" value="draft" {...register("status")} />
-            下書き
+            下書き（保存のみ）
           </label>
         </div>
       </div>
 
-      {/* タイトル */}
       <div>
         <label className="block text-sm font-semibold mb-1">タイトル</label>
         <input
@@ -78,21 +77,19 @@ export default function PostForm({
         )}
       </div>
 
-      {/* 内容 */}
       <div>
-        <label className="block text-sm font-semibold mb-1">内容</label>
+        <label className="block text-sm font-semibold mb-1">作業内容</label>
         <textarea
           {...register("content")}
           rows={6}
           className="w-full border rounded p-2 h-32"
-          placeholder="本文を入力"
+          placeholder="（本文）"
         />
         {errors.content && (
           <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
         )}
       </div>
 
-      {/* タグ */}
       <div>
         <label className="block text-sm font-semibold mb-1">タグ</label>
         <TagInput

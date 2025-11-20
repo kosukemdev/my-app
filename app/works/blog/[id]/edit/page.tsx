@@ -32,12 +32,12 @@ export default function EditPostPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">記事を編集</h1>
+      <h1 className="text-2xl font-bold mb-6">日報を編集</h1>
       <PostForm
         defaultValues={post}
         onSubmit={handleUpdate}
         submitLabel="更新する"
-        backLink={`/works/blog/${id}`}
+        backLink={"/works/blog"}
       />
     </div>
   );
