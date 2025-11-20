@@ -1,7 +1,7 @@
-// app/works/blog-app/page.tsx
+// app/works/daily-report-app/page.tsx
 "use client";
 import useSWR from "swr";
-import { fetcher } from "@/app/works/blog/lib/fetcher";
+import { fetcher } from "@/app/works/daily-report/lib/fetcher";
 import Link from "next/link";
 import { useState } from "react";
 import PostList from "./components/PostList";
@@ -11,13 +11,13 @@ import { FileText } from "lucide-react";
 import { Post } from "./types/post";
 import { useSession } from "next-auth/react";
 
-export default function BlogListPage() {
+export default function DailyReportListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { data: posts, error } = useSWR<Post[]>(
     selectedTags.length > 0
-      ? `/works/blog/api/posts?tags=${selectedTags.join(",")}`
-      : `/works/blog/api/posts`,
+      ? `/works/daily-report/api/posts?tags=${selectedTags.join(",")}`
+      : `/works/daily-report/api/posts`,
     fetcher,
     {
       revalidateOnFocus: false, // タブ切り替えで再フェッチしない
@@ -61,7 +61,7 @@ export default function BlogListPage() {
           />
           {session && (
             <Link
-              href="/works/blog/drafts"
+              href="/works/daily-report/drafts"
               className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer text-sm text-nowrap"
             >
               <FileText className="inline-block w-4 h-4 mr-1" />
@@ -77,7 +77,7 @@ export default function BlogListPage() {
       />
       {session && (
         <Link
-          href="/works/blog/new"
+          href="/works/daily-report/new"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
         >
           + 日報を書く

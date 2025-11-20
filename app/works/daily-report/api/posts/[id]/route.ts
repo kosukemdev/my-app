@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/works/blog/lib/supabaseClient";
-import { Post } from "@/app/works/blog/types/post";
+import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
+import { Post } from "@/app/works/daily-report/types/post";
 
 export async function GET(
   _req: Request,
@@ -26,7 +26,7 @@ export async function GET(
     tags: data.tags ?? [],
     status: data.status ?? "draft",
     createdAt: data.created_at,
-    liked: data.liked ?? false,
+    checked: data.checked ?? false,
   };
 
   return NextResponse.json(post);
@@ -37,13 +37,13 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { title, content, tags, status, liked } = await req.json();
+    const { title, content, tags, status, checked } = await req.json();
 
     const { id } = (await params) as { id: string };
 
     const { data, error } = await supabase
       .from("posts")
-      .update({ title, content, tags, status, liked })
+      .update({ title, content, tags, status, checked })
       .eq("id", id)
       .select("*")
       .single();

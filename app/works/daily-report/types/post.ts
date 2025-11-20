@@ -5,5 +5,5 @@ export type Post = {
   tags: string[];
   status: string;
   createdAt: string;
-  liked: boolean;
+  checked: boolean;
 };

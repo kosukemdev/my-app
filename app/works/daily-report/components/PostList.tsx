@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Post } from "@/app/works/blog/types/post";
+import { Post } from "@/app/works/daily-report/types/post";
 import { ArrowUpDown } from "lucide-react";
 import { mutate } from "swr";
 
@@ -24,16 +24,16 @@ export default function PostList({
 
   const toggleLike = async (id: string) => {
     mutate(
-      "/works/blog/api/posts",
+      "/works/daily-report/api/posts",
       (currentPosts: Post[] = []) =>
         currentPosts.map((p: any) =>
-          p.id === id ? { ...p, liked: !p.liked } : p
+          p.id === id ? { ...p, checked: !p.checked } : p
         ),
       false
     );
 
     try {
-      const res = await fetch("/works/blog/api/posts/like", {
+      const res = await fetch("/works/daily-report/api/posts/like", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -41,14 +41,14 @@ export default function PostList({
         body: JSON.stringify({ id }),
       });
       if (!res.ok) throw new Error("いいねの更新に失敗しました。");
-      mutate("/works/blog/api/posts");
+      mutate("/works/daily-report/api/posts");
     } catch (error) {
       console.error(error);
       mutate(
-        "/works/blog/api/posts",
+        "/works/daily-report/api/posts",
         (currentPosts: Post[] = []) =>
           currentPosts.map((p: any) =>
-            p.id === id ? { ...p, liked: !p.liked } : p
+            p.id === id ? { ...p, checked: !p.checked } : p
           ),
         false
       );
@@ -87,7 +87,7 @@ export default function PostList({
                 layout
                 whileHover={{ scale: 1.002 }}
               >
-                <Link href={`/works/blog/${post.id}`}>
+                <Link href={`/works/daily-report/${post.id}`}>
                   <h2 className="text-xl font-semibold">{post.title}</h2>
                   <p className="text-sm text-gray-600">
                     {post.tags?.map((t: string, i: number) => (
@@ -107,13 +107,13 @@ export default function PostList({
               {session ? (
                 <div className="flex justify-end gap-2 mt-1">
                   <Link
-                    href={`/works/blog/${post.id}/edit`}
+                    href={`/works/daily-report/${post.id}/edit`}
                     className="text-sm bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
                   >
                     日報を編集
                   </Link>
                   <Link
-                    href={`/works/blog/${post.id}/delete`}
+                    href={`/works/daily-report/${post.id}/delete`}
                     className="text-sm bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   >
                     削除
@@ -124,9 +124,9 @@ export default function PostList({
                   {showLikeButton && (
                     <button
                       onClick={() => toggleLike(post.id)}
-                      className={`hover:text-red-600 transition ${post.liked ? "text-red-600" : "text-gray-400"}`}
+                      className={`hover:text-red-600 transition ${post.checked ? "text-red-600" : "text-gray-400"}`}
                     >
-                      {post.liked ? "♥" : "♡"}Like
+                      {post.checked ? "確認済み" : "未確認"}
                     </button>
                   )}
                 </div>

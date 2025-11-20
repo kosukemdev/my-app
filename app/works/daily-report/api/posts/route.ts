@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/works/blog/lib/supabaseClient";
-import { Post } from "@/app/works/blog/types/post";
+import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
+import { Post } from "@/app/works/daily-report/types/post";
 
 export async function GET() {
   const { data, error } = await supabase
@@ -22,7 +22,7 @@ export async function GET() {
       tags: p.tags ?? [],
       status: p.status ?? "draft",
       createdAt: p.created_at,
-      liked: p.liked ?? false,
+      checked: p.checked ?? false,
     })) ?? [];
 
   return NextResponse.json(posts);
@@ -31,7 +31,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, content, tags, status, liked } = body;
+    const { title, content, tags, status, checked } = body;
 
     const { data, error } = await supabase
       .from("posts")
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
           tags: tags ?? [],
           status: status ?? "draft",
           created_at: new Date().toISOString(),
-          liked: liked ?? false,
+          checked: checked ?? false,
         },
       ])
       .select("*")
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       tags: data.tags ?? [],
       status: data.status,
       createdAt: data.created_at,
-      liked: data.liked,
+      checked: data.checked,
     };
 
     return NextResponse.json(post, { status: 201 });

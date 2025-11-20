@@ -6,20 +6,17 @@ export const revalidate = 60;
 
 const projects = [
   {
-    title: "Blog CMS",
-    slug: "blog",
-    description: "記事のCRUD機能付きブログアプリ",
-    reason: "記事の管理やデータ取得の仕組みを学ぶために作成",
-    tech: ["Next.js", "SWR"],
+    title: "業務日報アプリ",
+    slug: "daily-report",
+    description:
+      "工場業務の進捗記録・共有を目的とした日報管理アプリです。前職での経験から、業務日報をデジタルで管理できる仕組みを作りたいと考え制作しました。",
     thumbnail: "/thumbnails/sample.png",
-    demo: "/works/blog",
+    demo: "/works/daily-report",
   },
   {
     title: "Todo App",
     slug: "todo-app",
     description: "タスク管理アプリ（状態管理練習）",
-    reason: "状態管理(Zustand)とローカルストレージ永続化の学習目的で作成",
-    tech: ["React", "Zustand"],
     thumbnail: "/thumbnails/sample.png",
     demo: "/works/todo-app",
   },
@@ -60,18 +57,6 @@ export default function Works() {
                     {project.title}
                   </h3>
                   <p className="text-gray-700 mb-2">{project.description}</p>
-                  {/* 制作理由 */}
-                  <p className="text-gray-500 text-sm mb-4">{project.reason}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-gray-200 rounded-full text-sm text-gray-800"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
             </Link>

@@ -2,16 +2,16 @@
 
 import { useRouter, useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
-import { fetcher } from "@/app/works/blog/lib/fetcher";
+import { fetcher } from "@/app/works/daily-report/lib/fetcher";
 import { useState } from "react";
 import Link from "next/link";
-import { Post } from "@/app/works/blog/types/post";
+import { Post } from "@/app/works/daily-report/types/post";
 
 export default function DeletePostPage() {
   const { id } = useParams();
   const router = useRouter();
   const { data: post, error } = useSWR<Post>(
-    id ? `/works/blog/api/posts/${id}` : null,
+    id ? `/works/daily-report/api/posts/${id}` : null,
     fetcher
   );
   const [isDeleting, setIsDeleting] = useState(false);
@@ -21,19 +21,19 @@ export default function DeletePostPage() {
 
     setIsDeleting(true);
     try {
-      const res = await fetch(`/works/blog/api/posts/${id}`, {
+      const res = await fetch(`/works/daily-report/api/posts/${id}`, {
         method: "DELETE",
       });
 
       if (!res.ok) throw new Error("削除に失敗しました");
 
       mutate(
-        "/works/blog/api/posts",
+        "/works/daily-report/api/posts",
         (prev?: Post[]) => prev?.filter((p) => p.id !== id) ?? [],
         false
       );
 
-      router.push("/works/blog");
+      router.push("/works/daily-report");
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -64,7 +64,7 @@ export default function DeletePostPage() {
       </div>
 
       <div className="flex justify-between">
-        <Link href={"/works/blog"} className="text-blue-500 hover:underline">
+        <Link href={"/works/daily-report"} className="text-blue-500 hover:underline">
           ← 戻る
         </Link>
         <button

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/works/blog/lib/supabaseClient";
+import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
 
 export async function PATCH(req: Request) {
   try {
@@ -8,7 +8,7 @@ export async function PATCH(req: Request) {
     // 対象の投稿を取得
     const { data: post, error: fetchError } = await supabase
       .from("posts")
-      .select("liked")
+      .select("checked")
       .eq("id", id)
       .single();
 
@@ -19,13 +19,13 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // likedをトグル（true → false、false → true）
-    const newLiked = !post.liked;
+    // checkedをトグル（true → false、false → true）
+    const newchecked = !post.checked;
 
     // 更新
     const { error: updateError } = await supabase
       .from("posts")
-      .update({ liked: newLiked })
+      .update({ checked: newchecked })
       .eq("id", id);
 
     if (updateError) {
@@ -36,7 +36,7 @@ export async function PATCH(req: Request) {
       );
     }
 
-    return NextResponse.json({ id, liked: newLiked });
+    return NextResponse.json({ id, checked: newchecked });
   } catch (err: any) {
     console.error("PATCH Error:", err.message);
     return NextResponse.json({ message: "不正なリクエストです。" }, { status: 400 });

@@ -9,7 +9,7 @@ export default function NewPostPage() {
   const { mutate } = useSWRConfig();
 
   const handleCreate = async (data: PostFormData) => {
-    const res = await fetch("/works/blog/api/posts", {
+    const res = await fetch("/works/daily-report/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -19,8 +19,8 @@ export default function NewPostPage() {
       throw new Error("投稿に失敗しました。");
     }
 
-    mutate("/works/blog/api/posts");
-    router.push("/works/blog");
+    mutate("/works/daily-report/api/posts");
+    router.push("/works/daily-report");
   };
 
   return (
@@ -29,7 +29,7 @@ export default function NewPostPage() {
       <PostForm
         onSubmit={handleCreate}
         submitLabel="投稿する"
-        backLink="/works/blog"
+        backLink="/works/daily-report"
       />
     </div>
   );

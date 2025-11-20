@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Post } from "@/app/works/blog/types/post";
+import { Post } from "@/app/works/daily-report/types/post";
 
 export default async function DetailPage({
   params,
@@ -16,7 +16,7 @@ export default async function DetailPage({
       : "http://localhost:3000");
 
   const res = await fetch(
-    `${baseUrl.replace(/\/$/, "")}/works/blog/api/posts/${id}`,
+    `${baseUrl.replace(/\/$/, "")}/works/daily-report/api/posts/${id}`,
     {
       cache: "no-store",
     }
@@ -51,7 +51,7 @@ export default async function DetailPage({
       </div>
 
       <div className="flex justify-between items-center border-t pt-6">
-        <Link href="/works/blog" className="text-blue-500 hover:underline">
+        <Link href="/works/daily-report" className="text-blue-500 hover:underline">
           ← 一覧に戻る
         </Link>
       </div>

@@ -2,8 +2,8 @@
 
 import useSWR from "swr";
 import Link from "next/link";
-import { fetcher } from "@/app/works/blog/lib/fetcher";
-import { Post } from "@/app/works/blog/types/post";
+import { fetcher } from "@/app/works/daily-report/lib/fetcher";
+import { Post } from "@/app/works/daily-report/types/post";
 import PostList from "../components/PostList";
 import TagFilter from "../components/TagFilter";
 import WordFilter from "../components/WordFilter";
@@ -13,7 +13,7 @@ import { FileText } from "lucide-react";
 export default function DraftListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { data: posts, error } = useSWR<Post[]>("/works/blog/api/posts", fetcher);
+  const { data: posts, error } = useSWR<Post[]>("/works/daily-report/api/posts", fetcher);
 
   if (error) return <p className="p-6">データ取得に失敗しました</p>;
   if (!posts) return <p className="p-6">読み込み中...</p>;
@@ -51,7 +51,7 @@ export default function DraftListPage() {
             debounceMs={300}
           />
           <Link
-            href="/works/blog"
+            href="/works/daily-report"
             className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer text-sm text-nowrap"
           >
             <FileText className="inline-block w-4 h-4 mr-1" />
@@ -69,7 +69,7 @@ export default function DraftListPage() {
       {draftPosts.length === 0 ? (
         <>
           <Link
-            href="/works/blog/new"
+            href="/works/daily-report/new"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             + 新規投稿
@@ -79,7 +79,7 @@ export default function DraftListPage() {
       ) : (
         <>
           <Link
-            href="/works/blog/new"
+            href="/works/daily-report/new"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             + 新規投稿
