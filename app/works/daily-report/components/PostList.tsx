@@ -57,9 +57,9 @@ export default function PostList({
 
   const sortedPosts = posts.sort((a, b) => {
     if (isAscending) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    } else {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     }
   });
 
@@ -70,7 +70,7 @@ export default function PostList({
         className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
       >
         <ArrowUpDown className="inline-block w-4 h-4 mr-1" />
-        {isAscending ? "日付：古い順" : "日付：新しい順"}
+        {isAscending ? "日付：新しい順" : "日付：古い順"}
       </button>
       <AnimatePresence mode="wait">
         <motion.div
@@ -100,7 +100,8 @@ export default function PostList({
                     ))}
                   </p>
                   <p className="text-xs text-gray-500">
-                    作成日：{new Date(post.createdAt).toLocaleDateString("ja-JP")}
+                    作成日：
+                    {new Date(post.createdAt).toLocaleDateString("ja-JP")}
                   </p>
                 </Link>
               </motion.div>

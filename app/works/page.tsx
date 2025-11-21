@@ -10,15 +10,8 @@ const projects = [
     slug: "daily-report",
     description:
       "工場業務の進捗記録・共有を目的とした日報管理アプリです。前職での経験から、業務日報をデジタルで管理できる仕組みを作りたいと考え制作しました。",
-    thumbnail: "/thumbnails/sample.png",
+    thumbnail: "/thumbnails/daily-report.jpeg",
     demo: "/works/daily-report",
-  },
-  {
-    title: "Todo App",
-    slug: "todo-app",
-    description: "タスク管理アプリ（状態管理練習）",
-    thumbnail: "/thumbnails/sample.png",
-    demo: "/works/todo-app",
   },
 ];
 

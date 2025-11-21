@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
 import Image from "next/image";
-import { Github, Download, Mail, Code, Box } from "lucide-react";
-import Link from "next/link";
+import { Download, Mail } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export default function AboutPage() {
@@ -15,7 +14,7 @@ export default function AboutPage() {
         {/* プロフィール画像 */}
         <div className="flex-shrink-0 w-40 h-40">
           <Image
-            src="/thumbnails/sample.png"
+            src="/thumbnails/me_02.jpeg"
             alt="プロフィール画像"
             width={160}
             height={160}
@@ -23,31 +22,19 @@ export default function AboutPage() {
           />
         </div>
 
-        {/* 自己紹介 */}
         <div className="space-y-4">
           <h2 className="text-3xl font-bold">正木 洸介</h2>
           <p className="text-gray-600 leading-relaxed">
-            1995年生まれ。宮城県仙台市在住。
+            1995年生まれ。宮城県仙台市泉区在住。
             <br />
-            前職ではWeb制作会社にて、約8ヵ月コーディング業務を担当しました。
+            前職のWeb制作会社では、約8ヶ月間LPを中心にコーディング（HTML / CSS /
+            JavaScript）を担当しました。
             <br />
-            HTML /
-            CSSを中心に制作経験を積む中で、JavaScriptを使った動的なUIや、Reactなどのフロントエンド開発に興味を持つようになりました。
-            <br />
-            現在はポートフォリオ制作を通して、実務レベルのReact /
-            Next.jsアプリ開発に取り組んでいます。
+            静的なサイト制作の中で、動的なUIやデータを扱うフロントエンド開発に興味を持ち、現在はReact
+            / Next.jsを用いたアプリ開発に取り組んでいます。
           </p>
 
-          {/* SNSリンク＋履歴書ボタン */}
           <div className="flex gap-4 flex-wrap">
-            <Link
-              href="https://github.com/kosukemdev"
-              target="_blank"
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition"
-            >
-              <Github className="w-5 h-5" />
-              <span>GitHub</span>
-            </Link>
             <a
               href="/resume.pdf"
               download
@@ -59,8 +46,7 @@ export default function AboutPage() {
             </a>
             <a
               href="mailto:kosuke.m.dev@gmail"
-              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-green-600 text-white hover:bg-green-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
-              aria-disabled={!session}
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition bg-green-600 text-white hover:bg-green-700"
             >
               <Mail className="w-5 h-5" />
               <span>メール</span>
@@ -69,48 +55,51 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Profile */}
-      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
-          Profile
-        </h3>
-        <p className="leading-relaxed text-gray-700">
-          現在はフロントエンドエンジニアを目指し、ReactとNext.jsを中心に学習を進めています。
-          <br />
-          TypeScriptやTailwind
-          CSS、Zustand、SWRなどのモダンな技術を取り入れ、実務に近い環境での開発経験を積むことを意識しています。
-          <br />
-          自分の手でアプリを作り上げることで、コード設計やUIの一貫性を意識できるようになってきました。
-          <br />
-          最近はTypeScriptの型設計や状態管理のパターンに興味を持ち、学習を続けています。
-        </p>
-      </section>
-
-      {/* Skills */}
-      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
+      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-6">
         <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
           Skills
         </h3>
-        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {[
-            { name: "HTML / CSS", icon: Code },
-            { name: "JavaScript", icon: Code },
-            { name: "React", icon: Code },
-            { name: "Next.js", icon: Box },
-            { name: "SWR", icon: Box },
-            { name: "Zustand", icon: Box },
-            { name: "Tailwind CSS", icon: Code },
-            { name: "Git / GitHub", icon: Code },
-          ].map(({ name, icon: Icon }) => (
-            <li
-              key={name}
-              className="flex items-center justify-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium cursor-default"
-            >
-              <Icon className="w-4 h-4" />
-              {name}
-            </li>
-          ))}
-        </ul>
+
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-gray-700">Frontend</h4>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              "HTML / CSS",
+              "TypeScript",
+              "React",
+              "Next.js",
+              "Tailwind CSS",
+            ].map((name) => (
+              <li
+                key={name}
+                className="flex items-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium"
+              >
+                <span className="w-2 h-2 bg-[#918DB1] rounded-full"></span>
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-gray-700">Tools</h4>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              "Git / GitHub",
+              "Vercel（デプロイ）",
+              "Supabase（DB / API）",
+              "Figma（デザイン確認・コーディング）",
+            ].map((name) => (
+              <li
+                key={name}
+                className="flex items-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium"
+              >
+                <span className="w-2 h-2 bg-[#918DB1] rounded-full"></span>
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Mindset */}
@@ -119,11 +108,11 @@ export default function AboutPage() {
           Mindset
         </h3>
         <p className="leading-relaxed text-gray-700">
-          コードを書くときは「誰が見ても分かる・保守しやすいこと」を大切にしています。
+          コードを書くうえで大切にしているのは、「誰が見てもわかる」「保守しやすい」コードであることです。
           <br />
-          チームでの開発を意識し、命名やファイル構成など細部の整理も心がけています。
+          命名規則やディレクトリ構成など、プロジェクト全体の見通しが良くなるよう細部の整理を心がけています。
           <br />
-          小さな改善を積み重ねて、より良いUI体験を作ることが楽しいと感じています。
+          また、小さな改善を積み重ねていくプロセスにやりがいを感じています。
         </p>
       </section>
 
@@ -133,11 +122,10 @@ export default function AboutPage() {
           Vision
         </h3>
         <p className="leading-relaxed text-gray-700">
-          目指しているのは、ただ動くだけのWebではなく、
-          「誰にとっても使いやすく、伝わるWeb体験」を作ることです。
+          目指しているのは、ただ動くだけではなく、使いやすさや体験価値まで設計されたWebアプリを作ることです。
           <br />
-          将来的にはチーム開発に参加し、
-          技術だけでなくUI・UXやデザインの視点からも価値を生み出せるエンジニアを目指しています。
+          将来的にはチーム開発に参加し、技術だけでなくUI /
+          UXの視点も持つフロントエンドエンジニアとして価値を提供できるようになりたいと考えています。
         </p>
       </section>
     </div>

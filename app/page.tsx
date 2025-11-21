@@ -10,14 +10,14 @@ export default function Home() {
           <p className="text-lg text-gray-400">Frontend Engineer</p>
           <h2 className="text-4xl md:text-5xl font-bold mt-2">正木 洸介</h2>
           <p className="text-gray-800 mt-4 leading-relaxed">
-            Next.js / React / TypeScript / Tailwind / SWR / Zustand を使って
+            Next.js / React を使って
             Webアプリを開発中。
           </p>
         </div>
         <div className="flex-1 flex justify-center">
           <div className="w-64 h-64">
             <Image
-              src="/thumbnails/sample.png"
+              src="/thumbnails/me_01.jpeg"
               alt="プロフィール"
               className="w-full h-full object-cover shadow-md rounded-full"
               width={256}
