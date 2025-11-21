@@ -83,7 +83,7 @@ export default function DailyReportListPage() {
           + 日報を書く
         </Link>
       )}
-      <PostList posts={searchedPosts || []} showLikeButton={true} />
+      <PostList posts={searchedPosts || []} showCheckButton={true} />
     </div>
   );
 }

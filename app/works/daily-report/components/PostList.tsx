@@ -10,10 +10,10 @@ import { mutate } from "swr";
 
 export default function PostList({
   posts,
-  showLikeButton,
+  showCheckButton,
 }: {
   posts: Post[];
-  showLikeButton: boolean;
+  showCheckButton: boolean;
 }) {
   const [isAscending, setIsAscending] = useState(true);
   const { data: session } = useSession();
@@ -22,7 +22,7 @@ export default function PostList({
     setIsAscending((prev) => !prev);
   };
 
-  const toggleLike = async (id: string) => {
+  const toggleCheck = async (id: string) => {
     mutate(
       "/works/daily-report/api/posts",
       (currentPosts: Post[] = []) =>
@@ -33,7 +33,7 @@ export default function PostList({
     );
 
     try {
-      const res = await fetch("/works/daily-report/api/posts/like", {
+      const res = await fetch("/works/daily-report/api/posts/Check", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -121,9 +121,9 @@ export default function PostList({
                 </div>
               ) : (
                 <div className="flex justify-end">
-                  {showLikeButton && (
+                  {showCheckButton && (
                     <button
-                      onClick={() => toggleLike(post.id)}
+                      onClick={() => toggleCheck(post.id)}
                       className={`hover:text-red-600 transition ${post.checked ? "text-red-600" : "text-gray-400"}`}
                     >
                       {post.checked ? "確認済み" : "未確認"}

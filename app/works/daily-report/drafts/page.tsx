@@ -55,7 +55,7 @@ export default function DraftListPage() {
             className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer text-sm text-nowrap"
           >
             <FileText className="inline-block w-4 h-4 mr-1" />
-            公開記事一覧へ
+            日報一覧へ
           </Link>
         </div>
       </div>
@@ -72,9 +72,9 @@ export default function DraftListPage() {
             href="/works/daily-report/new"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            + 新規投稿
+            + 日報を書く
           </Link>
-          <p className="p-6">下書き記事はまだありません。</p>
+          <p className="p-6">下書きはまだありません。</p>
         </>
       ) : (
         <>
@@ -82,9 +82,9 @@ export default function DraftListPage() {
             href="/works/daily-report/new"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            + 新規投稿
+            + 日報を書く
           </Link>
-          <PostList posts={searchedPosts || []} showLikeButton={false} />
+          <PostList posts={searchedPosts || []} showCheckButton={false} />
         </>
       )}
     </div>
