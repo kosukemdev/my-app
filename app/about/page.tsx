@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Download, Mail } from "lucide-react";
+import { Github, Download, Mail } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export default function AboutPage() {
@@ -35,6 +35,15 @@ export default function AboutPage() {
           </p>
 
           <div className="flex gap-4 flex-wrap">
+            <a
+              href="https://github.com/kosukemdev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transitiono bg-orange-600 text-white hover:bg-orange-700"
+            >
+              <Github className="w-5 h-5" />
+              <span>GitHub</span>
+            </a>
             <a
               href="/resume.pdf"
               download

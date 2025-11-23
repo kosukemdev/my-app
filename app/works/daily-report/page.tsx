@@ -27,10 +27,11 @@ export default function DailyReportListPage() {
   const { data: session } = useSession();
 
   if (error) return <p>日報の読み込みに失敗しました</p>;
-  if (!posts) return <p>読み込み中...</p>;
+
+  const publishedPosts = posts?.filter((post) => post.status === "published");
 
   const allTags = Array.from(
-    new Set(posts?.flatMap((post) => post.tags) || [])
+    new Set(publishedPosts?.flatMap((post) => post.tags) || [])
   );
 
   const filteredPosts = posts?.filter(
@@ -83,6 +84,30 @@ export default function DailyReportListPage() {
           + 日報を書く
         </Link>
       )}
+      <div className="text-sm text-gray-600 mt-2">
+        {selectedTags.length > 0 || searchQuery ? (
+          <>
+            検索結果:{" "}
+            <span className="font-semibold">{searchedPosts?.length || 0}</span>
+            件
+            {posts && (
+              <>
+                {" "}
+                / 全
+                <span className="font-semibold">
+                  {posts.filter((p) => p.status === "published").length}件
+                </span>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            全
+            <span className="font-semibold">{searchedPosts?.length || 0}</span>
+            件
+          </>
+        )}
+      </div>
       <PostList posts={searchedPosts || []} showCheckButton={true} />
     </div>
   );
