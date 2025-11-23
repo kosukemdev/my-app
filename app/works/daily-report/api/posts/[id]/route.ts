@@ -26,6 +26,7 @@ export async function GET(
     tags: data.tags ?? [],
     status: data.status ?? "draft",
     createdAt: data.created_at,
+    updatedAt: data.updated_at,
     checked: data.checked ?? false,
   };
 
@@ -41,9 +42,23 @@ export async function PUT(
 
     const { id } = (await params) as { id: string };
 
+    // 既存の投稿を取得してchecked値を保持（送信されていない場合）
+    const { data: existingPost } = await supabase
+      .from("posts")
+      .select("checked")
+      .eq("id", id)
+      .single();
+
     const { data, error } = await supabase
       .from("posts")
-      .update({ title, content, tags, status, checked })
+      .update({ 
+        title, 
+        content, 
+        tags, 
+        status, 
+        checked: checked ?? existingPost?.checked ?? false,
+        updated_at: new Date().toISOString()
+      })
       .eq("id", id)
       .select("*")
       .single();
@@ -53,7 +68,18 @@ export async function PUT(
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(data);
+    const post: Post = {
+      id: data.id,
+      title: data.title,
+      content: data.content,
+      tags: data.tags ?? [],
+      status: data.status,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      checked: data.checked ?? false,
+    };
+
+    return NextResponse.json(post);
   } catch (err: any) {
     console.error("PUT Error:", err.message);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });

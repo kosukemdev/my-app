@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // created_at → createdAtに変換
+  // created_at → createdAt、updated_at → updatedAtに変換
   const posts: Post[] =
     data?.map((p) => ({
       id: p.id,
@@ -22,6 +22,7 @@ export async function GET() {
       tags: p.tags ?? [],
       status: p.status ?? "draft",
       createdAt: p.created_at,
+      updatedAt: p.updated_at || p.created_at, // updated_atがnullの場合はcreated_atと同じ値を使用
       checked: p.checked ?? false,
     })) ?? [];
 
@@ -33,6 +34,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, content, tags, status, checked } = body;
 
+    const now = new Date().toISOString();
     const { data, error } = await supabase
       .from("posts")
       .insert([
@@ -41,7 +43,8 @@ export async function POST(req: Request) {
           content,
           tags: tags ?? [],
           status: status ?? "draft",
-          created_at: new Date().toISOString(),
+          created_at: now,
+          updated_at: now, // 新規作成時もupdated_atを設定
           checked: checked ?? false,
         },
       ])
@@ -60,6 +63,7 @@ export async function POST(req: Request) {
       tags: data.tags ?? [],
       status: data.status,
       createdAt: data.created_at,
+      updatedAt: data.updated_at || data.created_at, // updated_atがnullの場合はcreated_atと同じ値を使用
       checked: data.checked,
     };
 

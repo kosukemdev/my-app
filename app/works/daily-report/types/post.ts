@@ -5,5 +5,6 @@ export type Post = {
   tags: string[];
   status: string;
   createdAt: string;
+  updatedAt: string;
   checked: boolean;
 };

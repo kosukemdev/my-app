@@ -13,18 +13,21 @@ import { FileText } from "lucide-react";
 export default function DraftListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { data: posts, error } = useSWR<Post[]>("/works/daily-report/api/posts", fetcher);
+  const { data: posts, error } = useSWR<Post[]>(
+    "/works/daily-report/api/posts",
+    fetcher
+  );
 
   if (error) return <p className="p-6">データ取得に失敗しました</p>;
   if (!posts) return <p className="p-6">読み込み中...</p>;
 
-  const draftPosts = posts.filter((post) => post.status === "draft");
+  const draftedPosts = posts.filter((post) => post.status === "draft")
 
   const allTags = Array.from(
-    new Set(posts?.flatMap((post) => post.tags) || [])
+    new Set(draftedPosts?.flatMap((post) => post.tags) || [])
   );
 
-  const filteredPosts = draftPosts?.filter(
+  const filteredPosts = draftedPosts?.filter(
     (post) =>
       selectedTags.every((tag) => post.tags.includes(tag)) &&
       post.status === "draft"
@@ -66,7 +69,7 @@ export default function DraftListPage() {
         setSelectedTags={setSelectedTags}
       />
 
-      {draftPosts.length === 0 ? (
+      {draftedPosts.length === 0 ? (
         <>
           <Link
             href="/works/daily-report/new"
@@ -84,6 +87,31 @@ export default function DraftListPage() {
           >
             + 日報を書く
           </Link>
+          <div className="text-sm text-gray-600 mt-2">
+            {selectedTags.length > 0 || searchQuery ? (
+              <>
+                検索結果:{" "}
+                <span className="font-semibold">
+                  {searchedPosts?.length || 0}件
+                </span>
+                {draftedPosts && (
+                  <>
+                    {" "}
+                    / 全
+                    <span className="font-semibold">{draftedPosts.length}</span>件
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                全
+                <span className="font-semibold">
+                  {searchedPosts?.length || 0}
+                </span>
+                件
+              </>
+            )}
+          </div>
           <PostList posts={searchedPosts || []} showCheckButton={false} />
         </>
       )}

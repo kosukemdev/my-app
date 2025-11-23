@@ -8,6 +8,17 @@ import { Post } from "@/app/works/daily-report/types/post";
 import { ArrowUpDown } from "lucide-react";
 import { mutate } from "swr";
 
+// 日付部分だけを比較するヘルパー関数
+const isSameDate = (date1: string, date2: string): boolean => {
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+};
+
 export default function PostList({
   posts,
   showCheckButton,
@@ -33,7 +44,7 @@ export default function PostList({
     );
 
     try {
-      const res = await fetch("/works/daily-report/api/posts/Check", {
+      const res = await fetch("/works/daily-report/api/posts/check", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -102,6 +113,14 @@ export default function PostList({
                   <p className="text-xs text-gray-500">
                     作成日：
                     {new Date(post.createdAt).toLocaleDateString("ja-JP")}
+                    {post.updatedAt && 
+                      !isSameDate(post.createdAt, post.updatedAt) && (
+                        <>
+                          <span className="mx-2">|</span>
+                          更新日：
+                          {new Date(post.updatedAt).toLocaleDateString("ja-JP")}
+                        </>
+                      )}
                   </p>
                 </Link>
               </motion.div>
