@@ -17,7 +17,6 @@ export default function EditPostPage() {
   );
 
   if (error) return <p>データ取得に失敗しました。</p>;
-  if (!post) return <p>読み込み中...</p>;
 
   const handleUpdate = async (data: PostFormData) => {
     const res = await fetch(`/works/daily-report/api/posts/${id}`, {
@@ -25,7 +24,7 @@ export default function EditPostPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...data,
-        checked: post.checked, // 既存のchecked値を保持
+        checked: post?.checked ?? false,
       }),
     });
     if (!res.ok) throw new Error("更新に失敗しました。");
@@ -36,10 +35,10 @@ export default function EditPostPage() {
 
   // Post型からPostFormData型に変換
   const formData: PostFormData = {
-    title: post.title,
-    content: post.content,
-    tags: post.tags ?? [],
-    status: post.status as "published" | "draft",
+    title: post?.title ?? "",
+    content: post?.content ?? "",
+    tags: post?.tags ?? [],
+    status: (post?.status as "published" | "draft") ?? "draft",
   };
 
   return (

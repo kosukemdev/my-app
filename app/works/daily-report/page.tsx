@@ -27,7 +27,6 @@ export default function DailyReportListPage() {
   const { data: session } = useSession();
 
   if (error) return <p>日報の読み込みに失敗しました</p>;
-  if (!posts) return <p>読み込み中...</p>;
 
   const publishedPosts = posts?.filter((post) => post.status === "published");
 

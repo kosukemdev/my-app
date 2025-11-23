@@ -19,12 +19,11 @@ export default function DraftListPage() {
   );
 
   if (error) return <p className="p-6">データ取得に失敗しました</p>;
-  if (!posts) return <p className="p-6">読み込み中...</p>;
 
-  const draftedPosts = posts.filter((post) => post.status === "draft")
+  const draftedPosts = posts?.filter((post) => post.status === "draft") || [];
 
   const allTags = Array.from(
-    new Set(draftedPosts?.flatMap((post) => post.tags) || [])
+    new Set(draftedPosts.flatMap((post) => post.tags) || [])
   );
 
   const filteredPosts = draftedPosts?.filter(
@@ -98,7 +97,8 @@ export default function DraftListPage() {
                   <>
                     {" "}
                     / 全
-                    <span className="font-semibold">{draftedPosts.length}</span>件
+                    <span className="font-semibold">{draftedPosts.length}</span>
+                    件
                   </>
                 )}
               </>

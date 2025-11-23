@@ -44,7 +44,6 @@ export default function DeletePostPage() {
   };
 
   if (error) return <p className="p-6">データ取得に失敗しました。</p>;
-  if (!post) return <p className="p-6">Loading...</p>;
 
   return (
     <div className="max-w-xl mx-auto p-6">
@@ -52,19 +51,26 @@ export default function DeletePostPage() {
       <p className="mb-6">本当にこの日報を削除してもよろしいですか？</p>
 
       <div className="border p-4 rounded bg-gray-50 mb-6">
-        <h2 className="text-lg font-semibold">{post.title}</h2>
+        <h2 className="text-lg font-semibold">
+          {post?.title ?? <span className="text-gray-400">タイトルなし</span>}
+        </h2>
         <p className="text-sm text-gray-500 mb-2">
-          {post.tags?.map((tag, i) => (
+          {post?.tags?.map((tag: string, i: number) => (
             <span key={`${tag}-${i}`} className="mr-2">
               #{tag}
             </span>
           ))}
         </p>
-        <p className="text-gray-700">{post.content}</p>
+        <p className="text-gray-700">
+          {post?.content || <span className="text-gray-400">本文なし</span>}
+        </p>
       </div>
 
       <div className="flex justify-between">
-        <Link href={"/works/daily-report"} className="text-blue-500 hover:underline">
+        <Link
+          href={"/works/daily-report"}
+          className="text-blue-500 hover:underline"
+        >
           ← 戻る
         </Link>
         <button
