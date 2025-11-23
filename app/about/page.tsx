@@ -45,13 +45,13 @@ export default function AboutPage() {
               <span>GitHub</span>
             </a>
             <a
-              href="/resume.pdf"
+              href="/MasakiKosuke_rirekisyo.pdf"
               download
               className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
               aria-disabled={!session}
             >
               <Download className="w-5 h-5" />
-              <span>履歴書 / Resume</span>
+              <span>履歴書</span>
             </a>
             <a
               href="mailto:kosuke.m.dev@gmail"
