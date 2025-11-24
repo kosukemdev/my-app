@@ -23,11 +23,8 @@
 - SWR を使ったクライアント側の楽観的更新
 
 **画面の画像**
-
-```md
-![投稿一覧](/thumbnails/list.png)
-![投稿作成](/thumbnails/new.png)
-```
+![投稿一覧](./thumbnails/list.png)
+![投稿作成](./thumbnails/new.png)
 
 **技術構成**
 - Framework: Next.js 14（App Router）
