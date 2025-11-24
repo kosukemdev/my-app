@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Post } from "@/app/works/daily-report/types/post";
-import { ArrowUpDown } from "lucide-react";
 import { mutate } from "swr";
 
 // 日付部分だけを比較するヘルパー関数
@@ -26,12 +25,8 @@ export default function PostList({
   posts: Post[];
   showCheckButton: boolean;
 }) {
-  const [isAscending, setIsAscending] = useState(true);
+  const [sortType, setSortType] = useState("newest");
   const { data: session } = useSession();
-
-  const toggleSortOrder = () => {
-    setIsAscending((prev) => !prev);
-  };
 
   const toggleCheck = async (id: string) => {
     mutate(
@@ -66,23 +61,38 @@ export default function PostList({
     }
   };
 
-  const sortedPosts = posts.sort((a, b) => {
-    if (isAscending) {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    } else {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    }
-  });
+  const sortedPosts = posts
+    .filter((post) => {
+      if (sortType === "unchecked") return !post.checked;
+      if (sortType === "checked") return post.checked;
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortType === "newest") {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+      if (sortType === "oldest") {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      }
+      return 0;
+    });
 
   return (
     <>
-      <button
-        onClick={toggleSortOrder}
-        className="mr-0 ml-auto px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition flex items-center cursor-pointer"
+      <select
+        value={sortType}
+        onChange={(e) => setSortType(e.target.value)}
+        className="ml-auto mr-0 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition cursor-pointer"
       >
-        <ArrowUpDown className="inline-block w-4 h-4 mr-1" />
-        {isAscending ? "日付：新しい順" : "日付：古い順"}
-      </button>
+        <option value="newest">作成日：新しい順</option>
+        <option value="oldest">作成日：古い順</option>
+        <option value="unchecked">未確認のみ</option>
+        <option value="checked">確認済みのみ</option>
+      </select>
       <AnimatePresence mode="wait">
         <motion.div
           key={posts.map((post) => post.id).join(",") ?? "all"}
@@ -113,7 +123,7 @@ export default function PostList({
                   <p className="text-xs text-gray-500">
                     作成日：
                     {new Date(post.createdAt).toLocaleDateString("ja-JP")}
-                    {post.updatedAt && 
+                    {post.updatedAt &&
                       !isSameDate(post.createdAt, post.updatedAt) && (
                         <>
                           <span className="mx-2">|</span>
