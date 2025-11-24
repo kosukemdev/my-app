@@ -17,6 +17,14 @@ export default function EditPostPage() {
   );
 
   if (error) return <p>データ取得に失敗しました。</p>;
+  if (!post) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-700">
+        <div className="animate-spin h-10 w-10 border-4 border-blue-400 border-t-transparent rounded-full" />
+        <p className="text-sm font-medium">日報データを整理しています…</p>
+      </div>
+    );
+  }
 
   const handleUpdate = async (data: PostFormData) => {
     const res = await fetch(`/works/daily-report/api/posts/${id}`, {
@@ -35,10 +43,10 @@ export default function EditPostPage() {
 
   // Post型からPostFormData型に変換
   const formData: PostFormData = {
-    title: post?.title ?? "",
-    content: post?.content ?? "",
-    tags: post?.tags ?? [],
-    status: (post?.status as "published" | "draft") ?? "draft",
+    title: post.title,
+    content: post.content,
+    tags: post.tags,
+    status: post.status as "published" | "draft",
   };
 
   return (
