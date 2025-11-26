@@ -45,7 +45,7 @@ export default function AboutPage() {
               <span>GitHub</span>
             </a>
             <a
-              href="/MasakiKosuke_rirekisyo.pdf"
+              href="/publib/履歴書_正木洸介.pdf"
               download
               className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
               aria-disabled={!session}
