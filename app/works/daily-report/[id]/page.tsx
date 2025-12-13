@@ -35,7 +35,7 @@ export default async function DetailPage({
     tags: data.tags ?? [],
     status: data.status ?? "draft",
     createdAt: data.created_at,
-    updatedAt: data.updated_at,
+    updatedAt: data.updated_at ?? null,
     checked: data.checked ?? false,
   };
 

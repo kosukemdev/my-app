@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
-import { Post } from "@/app/works/daily-report/types/post";
+import { Post, PostRow } from "@/app/works/daily-report/types/post";
 
 export async function GET(
   _req: Request,
@@ -19,15 +19,17 @@ export async function GET(
     return NextResponse.json({ error: error?.message ?? "Not found" }, { status: 404 });
   }
 
+  const row = data as PostRow;
+
   const post: Post = {
-    id: data.id,
-    title: data.title,
-    content: data.content,
-    tags: data.tags ?? [],
-    status: data.status ?? "draft",
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
-    checked: data.checked ?? false,
+    id: row.id,
+    title: row.title,
+    content: row.content,
+    tags: row.tags ?? [],
+    status: row.status ?? "draft",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at ?? null,
+    checked: row.checked ?? false,
   };
 
   return NextResponse.json(post);
@@ -51,13 +53,13 @@ export async function PUT(
 
     const { data, error } = await supabase
       .from("posts")
-      .update({ 
-        title, 
-        content, 
-        tags, 
-        status, 
+      .update({
+        title,
+        content,
+        tags,
+        status,
         checked: checked ?? existingPost?.checked ?? false,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq("id", id)
       .select("*")
@@ -68,15 +70,17 @@ export async function PUT(
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    const row = data as PostRow;
+
     const post: Post = {
-      id: data.id,
-      title: data.title,
-      content: data.content,
-      tags: data.tags ?? [],
-      status: data.status,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-      checked: data.checked ?? false,
+      id: row.id,
+      title: row.title,
+      content: row.content,
+      tags: row.tags ?? [],
+      status: row.status ?? "draft",
+      createdAt: row.created_at,
+      updatedAt: row.updated_at ?? null,
+      checked: row.checked ?? false,
     };
 
     return NextResponse.json(post);
