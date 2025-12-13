@@ -6,6 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Post } from "@/app/works/daily-report/types/post";
 import { mutate } from "swr";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 // 日付部分だけを比較するヘルパー関数
 const isSameDate = (date1: string, date2: string): boolean => {
@@ -83,16 +90,18 @@ export default function PostList({
 
   return (
     <>
-      <select
-        value={sortType}
-        onChange={(e) => setSortType(e.target.value)}
-        className="ml-auto mr-0 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition cursor-pointer"
-      >
-        <option value="newest">作成日：新しい順</option>
-        <option value="oldest">作成日：古い順</option>
-        <option value="unchecked">未確認のみ</option>
-        <option value="checked">確認済みのみ</option>
-      </select>
+      <Select value={sortType} onValueChange={setSortType}>
+        <SelectTrigger className="w-[220px] ml-auto">
+          <SelectValue placeholder="並び替え" />
+        </SelectTrigger>
+
+        <SelectContent>
+          <SelectItem value="newest">作成日：新しい順</SelectItem>
+          <SelectItem value="oldest">作成日：古い順</SelectItem>
+          <SelectItem value="unchecked">未確認のみ</SelectItem>
+          <SelectItem value="checked">確認済みのみ</SelectItem>
+        </SelectContent>
+      </Select>
       <AnimatePresence mode="wait">
         <motion.div
           key={posts.map((post) => post.id).join(",") ?? "all"}
