@@ -45,15 +45,6 @@ export default function AboutPage() {
               <span>GitHub</span>
             </a>
             <a
-              href="/rirekisyo_masakikosuke.pdf"
-              download
-              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition ${session ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-300 text-gray-500 pointer-events-none"}`}
-              aria-disabled={!session}
-            >
-              <Download className="w-5 h-5" />
-              <span>履歴書</span>
-            </a>
-            <a
               href="mailto:kosuke.m.dev@gmail"
               className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition bg-green-600 text-white hover:bg-green-700"
             >
