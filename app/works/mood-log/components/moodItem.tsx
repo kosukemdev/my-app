@@ -82,7 +82,7 @@ export function MoodItem({ log, isToday }: Props) {
         </>
       ) : (
         <>
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <div className="text-2xl">{moodLabel[log.mood]}</div>
             <div className="flex-1">
               <p className="text-sm text-gray-700">
@@ -94,20 +94,20 @@ export function MoodItem({ log, isToday }: Props) {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col gap-1 justify-between">
             <button
               onClick={() => {
                 setEditingId(log.id);
                 setEditNote(log.note);
                 setEditMood(log.mood);
               }}
-              className="text-xs text-blue-500 hover:text-blue-700"
+              className="text-xs bg-green-500 text-white rounded px-2 py-1 hover:bg-green-600 transition"
             >
               編集
             </button>
             <button
               onClick={() => deleteLog(log.id)}
-              className="text-xs text-red-500 hover:text-red-700"
+              className="text-xs bg-red-500 text-white rounded px-2 py-1 hover:bg-red-600 transition"
             >
               削除
             </button>

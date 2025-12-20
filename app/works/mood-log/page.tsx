@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MoodForm from "./components/MoodForm";
 import MoodList from "./components/MoodList";
 import { useMoodStore } from "./store/moodStore";
@@ -33,10 +33,10 @@ export default function MoodApp() {
   }, [logs]);
 
   return (
-    <main className="max-w-md mx-auto p-6 bg-gray-50 min-h-screen">
+    <main className="max-w-md mx-auto p-4 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-semibold mb-4">今日の気分</h1>
 
-      <MoodForm onAddLog={addLog} />
+      <MoodForm />
 
       <MoodList />
     </main>
