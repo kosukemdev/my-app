@@ -13,6 +13,14 @@ const projects = [
     thumbnail: "/thumbnails/daily-report.jpeg",
     demo: "/works/daily-report",
   },
+  {
+    title: "気分記録アプリ",
+    slug: "mood-log",
+    description:
+      "毎日の気分を記録するアプリです。Zustandの学習のために制作。",
+    thumbnail: "/thumbnails/mood-log.jpeg",
+    demo: "/works/mood-log",
+  },
 ];
 
 export default function Works() {
