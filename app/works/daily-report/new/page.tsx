@@ -1,3 +1,5 @@
+// 新規投稿ページ
+
 "use client";
 
 import { useSWRConfig } from "swr";

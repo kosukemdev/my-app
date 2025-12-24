@@ -35,14 +35,17 @@ export async function GET(
   return NextResponse.json(post);
 }
 
+// 編集API
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    // リクエストから情報を取得
     const { title, content, tags, status, checked } = await req.json();
 
-    const { id } = (await params) as { id: string };
+    // 投稿IDをparamsから取得（文字列型）
+    const { id } = params as { id: string };
 
     // 既存の投稿を取得してchecked値を保持（送信されていない場合）
     const { data: existingPost } = await supabase
@@ -51,6 +54,7 @@ export async function PUT(
       .eq("id", id)
       .single();
 
+    // idによりpostsテーブルの該当投稿をアップデート
     const { data, error } = await supabase
       .from("posts")
       .update({
@@ -65,13 +69,16 @@ export async function PUT(
       .select("*")
       .single();
 
+    // エラー時の処理
     if (error) {
       console.error("Error updating post:", error.message);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // DBのRow形式（PostRow）として受け取る
     const row = data as PostRow;
 
+    // フロント用のPost型に変換
     const post: Post = {
       id: row.id,
       title: row.title,
@@ -83,8 +90,10 @@ export async function PUT(
       checked: row.checked ?? false,
     };
 
+    // 作成した投稿を返す
     return NextResponse.json(post);
   } catch (err: any) {
+    // エラー時の処理
     console.error("PUT Error:", err.message);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
@@ -94,7 +103,7 @@ export async function DELETE(
   _req: Request,
   { params }: { params: { id: string } }
 ) {
-  const { id } = (await params) as { id: string };
+  const { id } = params as { id: string };
 
   const { error } = await supabase.from("posts").delete().eq("id", id);
 

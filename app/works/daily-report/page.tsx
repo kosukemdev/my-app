@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 export default function DailyReportListPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  // 日報一覧取得APIを呼び出す
   const { data: posts, error } = useSWR<Post[]>(
     selectedTags.length > 0
       ? `/works/daily-report/api/posts?tags=${selectedTags.join(",")}`
