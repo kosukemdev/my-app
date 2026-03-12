@@ -16,8 +16,7 @@ const projects = [
   {
     title: "気分記録アプリ",
     slug: "mood-log",
-    description:
-      "毎日の気分を記録するアプリです。Zustandの学習のために制作。",
+    description: "毎日の気分を記録するアプリです。Zustandの学習のために制作。",
     thumbnail: "/thumbnails/mood-log.jpeg",
     demo: "/works/mood-log",
   },
@@ -25,8 +24,8 @@ const projects = [
 
 export default function Works() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 px-4 py-12">
-      <section className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-white px-4 py-12 text-gray-900">
+      <section className="mx-auto max-w-5xl space-y-8">
         <h2 className="text-3xl font-bold">Works</h2>
         <p className="text-gray-600">
           これまで制作したWebアプリの一覧です。各プロジェクトの詳細ページからデモをご覧いただけます。
@@ -37,11 +36,11 @@ export default function Works() {
             <Link
               key={project.slug}
               href={project.demo}
-              className="flex flex-col md:flex-row bg-gray-100 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden group"
+              className="group flex flex-col overflow-hidden rounded-lg bg-gray-100 shadow-sm transition hover:shadow-md md:flex-row"
             >
               {/* サムネ画像 */}
               {project.thumbnail && (
-                <div className="md:w-1/3 w-full relative h-full overflow-clip">
+                <div className="relative h-full w-full overflow-clip md:w-1/3">
                   <Image
                     src={project.thumbnail}
                     alt={project.title}
@@ -52,12 +51,12 @@ export default function Works() {
               )}
 
               {/* テキスト部分 */}
-              <div className="md:w-2/3 w-full p-6 flex flex-col justify-between">
+              <div className="flex w-full flex-col justify-between p-6 md:w-2/3">
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">
+                  <h3 className="mb-2 text-xl font-semibold">
                     {project.title}
                   </h3>
-                  <p className="text-gray-700 mb-2">{project.description}</p>
+                  <p className="mb-2 text-gray-700">{project.description}</p>
                 </div>
               </div>
             </Link>

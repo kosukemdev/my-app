@@ -52,7 +52,7 @@ export default function PostForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* 公開状態 */}
       <div>
-        <label className="block mb-1 font-medium">公開状態</label>
+        <label className="mb-1 block font-medium">公開状態</label>
         <div className="flex gap-4">
           <label className="flex items-center gap-1">
             <input type="radio" value="published" {...register("status")} />
@@ -66,50 +66,50 @@ export default function PostForm({
       </div>
 
       <div>
-        <label className="block text-sm font-semibold mb-1">タイトル</label>
+        <label className="mb-1 block text-sm font-semibold">タイトル</label>
         <input
           {...register("title")}
-          className="w-full border rounded p-2"
+          className="w-full rounded border p-2"
           placeholder="タイトルを入力"
         />
         {errors.title && (
-          <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-sm font-semibold mb-1">作業内容</label>
+        <label className="mb-1 block text-sm font-semibold">作業内容</label>
         <textarea
           {...register("content")}
           rows={6}
-          className="w-full border rounded p-2 h-32"
+          className="h-32 w-full rounded border p-2"
           placeholder="（本文）"
         />
         {errors.content && (
-          <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
+          <p className="mt-1 text-sm text-red-500">{errors.content.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block text-sm font-semibold mb-1">タグ</label>
+        <label className="mb-1 block text-sm font-semibold">タグ</label>
         <TagInput
           value={tags}
           onChange={(newTags: string[]) => setValue("tags", newTags)}
         />
         {errors.tags && (
-          <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>
+          <p className="mt-1 text-sm text-red-500">{errors.tags.message}</p>
         )}
       </div>
 
       {/* ボタン */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Link href={backLink} className="text-blue-500 hover:underline">
           ← 戻る
         </Link>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
         >
           {isSubmitting ? "送信中..." : submitLabel}
         </button>

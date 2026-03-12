@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from 'zustand/middleware';
+import { persist } from "zustand/middleware";
 import { MoodLog } from "../page";
 
 type MoodStore = {
@@ -12,39 +12,40 @@ type MoodStore = {
   setEditingId: (id: string | null) => void;
 };
 
-export const useMoodStore = create<MoodStore>()(persist((set) => ({
-  logs: [],
-  editingId: null,
+export const useMoodStore = create<MoodStore>()(
+  persist(
+    (set) => ({
+      logs: [],
+      editingId: null,
 
-  addLog: (log) =>
-    set((state) => {
-      if (!log.mood) return state;
-      return {
-        logs: [log, ...state.logs],
-      }
+      addLog: (log) =>
+        set((state) => {
+          if (!log.mood) return state;
+          return {
+            logs: [log, ...state.logs],
+          };
+        }),
+
+      deleteLog: (id) =>
+        set((state) => ({
+          logs: state.logs.filter((log) => log.id !== id),
+        })),
+
+      updateLog: (updated) =>
+        set((state) => ({
+          logs: state.logs.map((log) =>
+            log.id === updated.id ? updated : log,
+          ),
+        })),
+
+      setEditingId: (id) => set({ editingId: id }),
     }),
+    {
+      name: "mood-log-storage",
 
-  deleteLog: (id) =>
-    set((state) => ({
-      logs: state.logs.filter((log) => log.id !== id),
-    })),
-
-  updateLog: (updated) =>
-    set((state) => ({
-      logs: state.logs.map((log) =>
-        log.id === updated.id ? updated : log
-      ),
-    })),
-
-  setEditingId: (id) => set({ editingId: id }),
-}),
-  {
-    name: 'mood-log-storage',
-
-    partialize: (state) => (
-      {
+      partialize: (state) => ({
         logs: state.logs,
       }),
-  }
-)
+    },
+  ),
 );

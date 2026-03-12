@@ -23,6 +23,7 @@
 - SWR を使ったクライアント側の楽観的更新
 
 **技術構成**
+
 - Framework: Next.js 14（App Router）
 - Language: TypeScript
 - UI: React / Tailwind CSS
@@ -33,6 +34,7 @@
 - Auth: next-auth（ログインページのみ）
 
 構成のポイント
+
 - App Router のルーティングと API Routes を使い、フロント〜バックの流れを理解することを重視
 - Supabase を採用し、DB スキーマと CRUD 操作を一通り体験
 - フロントは SWR によるキャッシュ・更新の扱いを学習
@@ -40,19 +42,19 @@
 **主な実装ディレクトリ**
 app/
 └── works/
-    └── daily-report/
-        ├── api/
-        │   └── posts/             # CRUD API Routes
-        ├── components/            # PostForm, PostList など UI
-        ├── lib/
-        │   ├── supabaseClient.ts  # Supabase 初期化
-        │   └── fetcher.ts         # SWR 用 fetcher
-        ├── page.tsx               # 一覧
-        ├── [id]/page.tsx          # 詳細
-        └── [id]/edit/page.tsx     # 編集
-
+└── daily-report/
+├── api/
+│ └── posts/ # CRUD API Routes
+├── components/ # PostForm, PostList など UI
+├── lib/
+│ ├── supabaseClient.ts # Supabase 初期化
+│ └── fetcher.ts # SWR 用 fetcher
+├── page.tsx # 一覧
+├── [id]/page.tsx # 詳細
+└── [id]/edit/page.tsx # 編集
 
 **エンドポイント一覧**
+
 - `GET  /app/works/daily-report/api/posts` — 投稿一覧
 - `POST /app/works/daily-report/api/posts` — 新規作成
 - `GET  /app/works/daily-report/api/posts/:id` — 詳細取得

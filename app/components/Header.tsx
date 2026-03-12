@@ -22,48 +22,48 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full px-4 py-4 flex items-center justify-between fixed top-0 left-0 bg-[#455698] text-gray-100 shadow-md z-50 ${isOpen ? "h-auto" : "h-16"}`}
+      className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between bg-[#455698] px-4 py-4 text-gray-100 shadow-md ${isOpen ? "h-auto" : "h-16"}`}
     >
       {/* サイト名 */}
 
-      <h2 className="text-2xl font-bold ">
+      <h2 className="text-2xl font-bold">
         <Link href="/">Kosuke Masaki Portfolio</Link>
       </h2>
 
       {/* デスクトップナビ */}
-      <nav className="space-x-6 hidden md:flex md:items-center">
+      <nav className="hidden space-x-6 md:flex md:items-center">
         <Link
           href="/"
-          className="relative group"
+          className="group relative"
           aria-current={isActive("/") ? "page" : undefined}
         >
           Home
           <span
-            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+            className={`absolute -bottom-0.5 left-0 block h-0.5 origin-left bg-gray-100 transition-all duration-300 ease-in-out ${
               isActive("/") ? "w-full" : "w-0 group-hover:w-full"
             }`}
           ></span>
         </Link>
         <Link
           href="/about"
-          className="relative group"
+          className="group relative"
           aria-current={isActive("/about") ? "page" : undefined}
         >
           About
           <span
-            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+            className={`absolute -bottom-0.5 left-0 block h-0.5 origin-left bg-gray-100 transition-all duration-300 ease-in-out ${
               isActive("/about") ? "w-full" : "w-0 group-hover:w-full"
             }`}
           ></span>
         </Link>
         <Link
           href="/works"
-          className="relative group"
+          className="group relative"
           aria-current={isActive("/works") ? "page" : undefined}
         >
           Works
           <span
-            className={`absolute -bottom-0.5 left-0 block h-0.5 bg-gray-100 transition-all duration-300 origin-left ease-in-out ${
+            className={`absolute -bottom-0.5 left-0 block h-0.5 origin-left bg-gray-100 transition-all duration-300 ease-in-out ${
               isActive("/works") ? "w-full" : "w-0 group-hover:w-full"
             }`}
           ></span>
@@ -72,7 +72,7 @@ export default function Header() {
           <div>
             <button
               onClick={handleLogout}
-              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300 font-medium cursor-pointer"
+              className="block cursor-pointer rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
             >
               ログアウト
             </button>
@@ -80,7 +80,7 @@ export default function Header() {
         ) : (
           <Link
             href="/login"
-            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300 font-medium cursor-pointer"
+            className="block cursor-pointer rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
           >
             ログイン
           </Link>
@@ -89,19 +89,19 @@ export default function Header() {
 
       <div className="flex items-center space-x-2 md:hidden">
         {/* モバイル用ハンバーガーメニュー */}
-        <div className="md:hidden relative z-50">
+        <div className="relative z-50 md:hidden">
           <button
-            className="p-2 rounded focus:outline-none"
+            className="rounded p-2 focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
           >
             <span className="sr-only">Open menu</span>
             <Menu
               size={28}
-              className={`absolute right-0 top-0 transition-transform duration-300 ${isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"}`}
+              className={`absolute top-0 right-0 transition-transform duration-300 ${isOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"}`}
             />
             <X
               size={28}
-              className={`absolute right-0 top-0 transition-transform duration-300 ${isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"}`}
+              className={`absolute top-0 right-0 transition-transform duration-300 ${isOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"}`}
             />
           </button>
         </div>
@@ -109,11 +109,11 @@ export default function Header() {
 
       {/* モバイルメニュー */}
       <nav
-        className={`absolute bg-[#455698] top-16 left-0 w-full flex flex-col items-center py-4 md:hidden transition-all duration-300 overflow-hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+        className={`absolute top-16 left-0 flex w-full flex-col items-center overflow-hidden bg-[#455698] py-4 transition-all duration-300 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
         <Link
           href="/"
-          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/") ? "underline" : ""}`}
+          className={`py-2 transition-colors duration-300 hover:text-yellow-500 ${isActive("/") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
           aria-current={isActive("/") ? "page" : undefined}
         >
@@ -121,7 +121,7 @@ export default function Header() {
         </Link>
         <Link
           href="/about"
-          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/about") ? "underline" : ""}`}
+          className={`py-2 transition-colors duration-300 hover:text-yellow-500 ${isActive("/about") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
           aria-current={isActive("/about") ? "page" : undefined}
         >
@@ -129,7 +129,7 @@ export default function Header() {
         </Link>
         <Link
           href="/works"
-          className={`py-2 hover:text-yellow-500 transition-colors duration-300 ${isActive("/works") ? "underline" : ""}`}
+          className={`py-2 transition-colors duration-300 hover:text-yellow-500 ${isActive("/works") ? "underline" : ""}`}
           onClick={() => setIsOpen(false)}
           aria-current={isActive("/works") ? "page" : undefined}
         >
@@ -139,7 +139,7 @@ export default function Header() {
           <div>
             <button
               onClick={handleLogout}
-              className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+              className="block rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
             >
               ログアウト
             </button>
@@ -147,7 +147,7 @@ export default function Header() {
         ) : (
           <Link
             href="/login"
-            className="block bg-gray-100 rounded text-[#455698] px-4 py-1 hover:bg-gray-200 transition-colors duration-300  font-medium"
+            className="block rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
           >
             ログイン
           </Link>

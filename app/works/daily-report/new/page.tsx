@@ -26,8 +26,8 @@ export default function NewPostPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">新規投稿</h1>
+    <div className="mx-auto max-w-xl p-6">
+      <h1 className="mb-6 text-2xl font-bold">新規投稿</h1>
       <PostForm
         onSubmit={handleCreate}
         submitLabel="投稿する"

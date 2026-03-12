@@ -13,14 +13,14 @@ export default function EditPostPage() {
   const { mutate } = useSWRConfig();
   const { data: post, error } = useSWR<Post>(
     id ? `/works/daily-report/api/posts/${id}` : null,
-    fetcher
+    fetcher,
   );
 
   if (error) return <p>データ取得に失敗しました。</p>;
   if (!post) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-700">
-        <div className="animate-spin h-10 w-10 border-4 border-blue-400 border-t-transparent rounded-full" />
+      <div className="flex h-64 flex-col items-center justify-center gap-3 text-gray-700">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-400 border-t-transparent" />
         <p className="text-sm font-medium">日報データを整理しています…</p>
       </div>
     );
@@ -50,8 +50,8 @@ export default function EditPostPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">日報を編集</h1>
+    <div className="mx-auto max-w-xl p-6">
+      <h1 className="mb-6 text-2xl font-bold">日報を編集</h1>
       <PostForm
         defaultValues={formData}
         onSubmit={handleUpdate}

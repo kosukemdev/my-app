@@ -1,7 +1,7 @@
 export const fetcher = async <T>(url: string): Promise<T> => {
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error('エラーが発生しました。');
+    throw new Error("エラーが発生しました。");
   }
   return res.json() as Promise<T>;
 };

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect } from "react";
 import MoodForm from "./components/MoodForm";
@@ -18,8 +18,7 @@ export default function MoodApp() {
   const logs = useMoodStore((s) => s.logs);
   const addLog = useMoodStore((s) => s.addLog);
 
-
-  const STORAGE_KEY = 'mood-logs';
+  const STORAGE_KEY = "mood-logs";
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -33,8 +32,8 @@ export default function MoodApp() {
   }, [logs]);
 
   return (
-    <main className="max-w-md mx-auto p-4 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-semibold mb-4">今日の気分</h1>
+    <main className="mx-auto min-h-screen max-w-md bg-gray-50 p-4">
+      <h1 className="mb-4 text-2xl font-semibold">今日の気分</h1>
 
       <MoodForm />
 

@@ -8,23 +8,23 @@ export default function AboutPage() {
   const { data: session } = useSession();
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 space-y-16">
+    <div className="mx-auto max-w-5xl space-y-16 px-6 py-12">
       {/* Heroセクション */}
-      <section className="flex flex-col md:flex-row items-center md:items-start gap-10">
+      <section className="flex flex-col items-center gap-10 md:flex-row md:items-start">
         {/* プロフィール画像 */}
-        <div className="flex-shrink-0 w-40 h-40">
+        <div className="h-40 w-40 flex-shrink-0">
           <Image
             src="/thumbnails/me_02.jpeg"
             alt="プロフィール画像"
             width={160}
             height={160}
-            className="w-full h-full object-cover shadow-md rounded-full"
+            className="h-full w-full rounded-full object-cover shadow-md"
           />
         </div>
 
         <div className="space-y-4">
           <h2 className="text-3xl font-bold">正木 洸介</h2>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="leading-relaxed text-gray-600">
             1995年生まれ。宮城県仙台市泉区在住。
             <br />
             前職のWeb制作会社では、約8ヶ月間LPを中心にコーディング（HTML / CSS /
@@ -34,35 +34,35 @@ export default function AboutPage() {
             / Next.jsを用いたアプリ開発に取り組んでいます。
           </p>
 
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex flex-wrap gap-4">
             <a
               href="https://github.com/kosukemdev"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transitiono bg-orange-600 text-white hover:bg-orange-700"
+              className="transitiono flex items-center gap-2 rounded-full bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700"
             >
-              <Github className="w-5 h-5" />
+              <Github className="h-5 w-5" />
               <span>GitHub</span>
             </a>
             <a
               href="mailto:kosuke.m.dev@gmail"
-              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition bg-green-600 text-white hover:bg-green-700"
+              className="flex items-center gap-2 rounded-full bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="h-5 w-5" />
               <span>メール</span>
             </a>
           </div>
         </div>
       </section>
 
-      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-6">
-        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
+      <section className="space-y-6 rounded-2xl bg-white p-8 shadow-sm">
+        <h3 className="border-l-4 border-[#918DB1] pl-3 text-2xl font-semibold">
           Skills
         </h3>
 
         <div className="space-y-4">
           <h4 className="text-lg font-semibold text-gray-700">Frontend</h4>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {[
               "HTML / CSS",
               "TypeScript",
@@ -72,9 +72,9 @@ export default function AboutPage() {
             ].map((name) => (
               <li
                 key={name}
-                className="flex items-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium"
+                className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium"
               >
-                <span className="w-2 h-2 bg-[#918DB1] rounded-full"></span>
+                <span className="h-2 w-2 rounded-full bg-[#918DB1]"></span>
                 {name}
               </li>
             ))}
@@ -83,7 +83,7 @@ export default function AboutPage() {
 
         <div className="space-y-4">
           <h4 className="text-lg font-semibold text-gray-700">Tools</h4>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {[
               "Git / GitHub",
               "Vercel（デプロイ）",
@@ -92,9 +92,9 @@ export default function AboutPage() {
             ].map((name) => (
               <li
                 key={name}
-                className="flex items-center gap-2 bg-gray-100 rounded-lg py-2 px-3 text-sm font-medium"
+                className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium"
               >
-                <span className="w-2 h-2 bg-[#918DB1] rounded-full"></span>
+                <span className="h-2 w-2 rounded-full bg-[#918DB1]"></span>
                 {name}
               </li>
             ))}
@@ -103,8 +103,8 @@ export default function AboutPage() {
       </section>
 
       {/* Mindset */}
-      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
+      <section className="space-y-4 rounded-2xl bg-white p-8 shadow-sm">
+        <h3 className="border-l-4 border-[#918DB1] pl-3 text-2xl font-semibold">
           Mindset
         </h3>
         <p className="leading-relaxed text-gray-700">
@@ -117,8 +117,8 @@ export default function AboutPage() {
       </section>
 
       {/* Vision */}
-      <section className="bg-white rounded-2xl shadow-sm p-8 space-y-4">
-        <h3 className="text-2xl font-semibold border-l-4 border-[#918DB1] pl-3">
+      <section className="space-y-4 rounded-2xl bg-white p-8 shadow-sm">
+        <h3 className="border-l-4 border-[#918DB1] pl-3 text-2xl font-semibold">
           Vision
         </h3>
         <p className="leading-relaxed text-gray-700">

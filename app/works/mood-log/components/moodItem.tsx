@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import { useState } from "react";
-import { MoodLog } from "../page"
+import { MoodLog } from "../page";
 import { useMoodStore } from "../store/moodStore";
 
 type Props = {
@@ -10,15 +10,10 @@ type Props = {
 };
 
 export function MoodItem({ log, isToday }: Props) {
-  const [editNote, setEditNote] = useState('');
-  const [editMood, setEditMood] = useState<MoodLog['mood']>(3);
-  const {
-    logs,
-    deleteLog,
-    updateLog,
-    editingId,
-    setEditingId,
-  } = useMoodStore();
+  const [editNote, setEditNote] = useState("");
+  const [editMood, setEditMood] = useState<MoodLog["mood"]>(3);
+  const { logs, deleteLog, updateLog, editingId, setEditingId } =
+    useMoodStore();
 
   const moodLabel = {
     1: "😞",
@@ -35,21 +30,18 @@ export function MoodItem({ log, isToday }: Props) {
       key={log.id}
       className={
         !isEditing
-          ? `flex justify-between border rounded-lg p-3 shadow-sm
-               ${isToday ? "bg-blue-50 border-blue-300" : "bg-white"}`
+          ? `flex justify-between rounded-lg border p-3 shadow-sm ${isToday ? "border-blue-300 bg-blue-50" : "bg-white"}`
           : ""
       }
     >
       {isEditing ? (
         <>
-          <div className="flex gap-2 mb-2">
+          <div className="mb-2 flex gap-2">
             {[1, 2, 3, 4, 5].map((mood) => (
               <button
                 key={mood}
                 onClick={() => setEditMood(mood as MoodLog["mood"])}
-                className={`px-2 py-1 rounded
-                    ${editMood === mood ? "bg-blue-500 text-white" : ""}
-                  `}
+                className={`rounded px-2 py-1 ${editMood === mood ? "bg-blue-500 text-white" : ""} `}
               >
                 {moodLabel[mood as keyof typeof moodLabel]}
               </button>
@@ -59,7 +51,7 @@ export function MoodItem({ log, isToday }: Props) {
           <textarea
             value={editNote}
             onChange={(e) => setEditNote(e.target.value)}
-            className="border rounded w-full mb-2 bg-white"
+            className="mb-2 w-full rounded border bg-white"
           />
 
           <div className="flex gap-2">
@@ -88,26 +80,24 @@ export function MoodItem({ log, isToday }: Props) {
               <p className="text-sm text-gray-700">
                 {log.note || "（メモなし）"}
               </p>
-              <p className="text-xs text-gray-400 mt-1">
-                {log.date}
-              </p>
+              <p className="mt-1 text-xs text-gray-400">{log.date}</p>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 justify-between">
+          <div className="flex flex-col justify-between gap-1">
             <button
               onClick={() => {
                 setEditingId(log.id);
                 setEditNote(log.note);
                 setEditMood(log.mood);
               }}
-              className="text-xs bg-green-500 text-white rounded px-2 py-1 hover:bg-green-600 transition"
+              className="rounded bg-green-500 px-2 py-1 text-xs text-white transition hover:bg-green-600"
             >
               編集
             </button>
             <button
               onClick={() => deleteLog(log.id)}
-              className="text-xs bg-red-500 text-white rounded px-2 py-1 hover:bg-red-600 transition"
+              className="rounded bg-red-500 px-2 py-1 text-xs text-white transition hover:bg-red-600"
             >
               削除
             </button>
@@ -115,5 +105,5 @@ export function MoodItem({ log, isToday }: Props) {
         </>
       )}
     </li>
-  )
+  );
 }

@@ -25,25 +25,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl mb-4">ログイン</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-64">
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <h1 className="mb-4 text-2xl">ログイン</h1>
+      <form onSubmit={handleSubmit} className="flex w-64 flex-col gap-2">
         <input
           type="email"
           placeholder="admin@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded"
+          className="rounded border p-2"
         />
         <input
           type="password"
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
+          className="rounded border p-2"
         />
         {error && <p className="text-red-500">{error}</p>}
-        <button className="bg-[#455698] text-gray-100 p-2 rounded cursor-pointer hover:opacity-80 transition  font-medium">
+        <button className="cursor-pointer rounded bg-[#455698] p-2 font-medium text-gray-100 transition hover:opacity-80">
           ログイン
         </button>
       </form>

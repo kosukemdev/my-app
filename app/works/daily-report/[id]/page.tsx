@@ -40,14 +40,14 @@ export default async function DetailPage({
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="mx-auto max-w-2xl space-y-6 p-6">
       <div>
         <h1 className="text-3xl font-bold">{post.title}</h1>
-        <p className="text-gray-500 mt-2">
+        <p className="mt-2 text-gray-500">
           {post.tags?.map((tag: string) => (
             <span
               key={tag}
-              className="text-sm bg-gray-100 px-2 py-1 rounded-full mr-2 inline-block"
+              className="mr-2 inline-block rounded-full bg-gray-100 px-2 py-1 text-sm"
             >
               #{tag}
             </span>
@@ -64,11 +64,11 @@ export default async function DetailPage({
         </p>
       </div>
 
-      <div className="border-t pt-4 text-gray-800 leading-relaxed whitespace-pre-wrap">
+      <div className="border-t pt-4 leading-relaxed whitespace-pre-wrap text-gray-800">
         {post.content}
       </div>
 
-      <div className="flex justify-between items-center border-t pt-6">
+      <div className="flex items-center justify-between border-t pt-6">
         <Link
           href="/works/daily-report"
           className="text-blue-500 hover:underline"

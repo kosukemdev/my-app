@@ -4,7 +4,7 @@ import { Post, PostRow } from "@/app/works/daily-report/types/post";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const { id } = (await params) as { id: string };
 
@@ -16,7 +16,10 @@ export async function GET(
 
   if (error || !data) {
     console.error("Error fetching post:", error?.message);
-    return NextResponse.json({ error: error?.message ?? "Not found" }, { status: 404 });
+    return NextResponse.json(
+      { error: error?.message ?? "Not found" },
+      { status: 404 },
+    );
   }
 
   const row = data as PostRow;
@@ -38,7 +41,7 @@ export async function GET(
 // 編集API
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     // リクエストから情報を取得
@@ -101,7 +104,7 @@ export async function PUT(
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const { id } = params as { id: string };
 

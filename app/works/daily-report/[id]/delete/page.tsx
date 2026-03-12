@@ -12,7 +12,7 @@ export default function DeletePostPage() {
   const router = useRouter();
   const { data: post, error } = useSWR<Post>(
     id ? `/works/daily-report/api/posts/${id}` : null,
-    fetcher
+    fetcher,
   );
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -30,7 +30,7 @@ export default function DeletePostPage() {
       mutate(
         "/works/daily-report/api/posts",
         (prev?: Post[]) => prev?.filter((p) => p.id !== id) ?? [],
-        false
+        false,
       );
 
       router.push("/works/daily-report");
@@ -46,23 +46,23 @@ export default function DeletePostPage() {
   if (error) return <p className="p-6">データ取得に失敗しました。</p>;
   if (!post) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-700">
-        <div className="animate-spin h-10 w-10 border-4 border-blue-400 border-t-transparent rounded-full" />
+      <div className="flex h-64 flex-col items-center justify-center gap-3 text-gray-700">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-400 border-t-transparent" />
         <p className="text-sm font-medium">日報データを整理しています…</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">日報の削除</h1>
+    <div className="mx-auto max-w-xl p-6">
+      <h1 className="mb-4 text-2xl font-bold">日報の削除</h1>
       <p className="mb-6">本当にこの日報を削除してもよろしいですか？</p>
 
-      <div className="border p-4 rounded bg-gray-50 mb-6">
+      <div className="mb-6 rounded border bg-gray-50 p-4">
         <h2 className="text-lg font-semibold">
           {post?.title ?? <span className="text-gray-400">タイトルなし</span>}
         </h2>
-        <p className="text-sm text-gray-500 mb-2">
+        <p className="mb-2 text-sm text-gray-500">
           {post?.tags?.map((tag: string, i: number) => (
             <span key={`${tag}-${i}`} className="mr-2">
               #{tag}
@@ -84,7 +84,7 @@ export default function DeletePostPage() {
         <button
           onClick={handleDelete}
           disabled={isDeleting}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
         >
           {isDeleting ? "削除中..." : "削除する"}
         </button>

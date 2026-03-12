@@ -15,7 +15,7 @@ export async function PATCH(req: Request) {
     if (fetchError || !post) {
       return NextResponse.json(
         { message: "投稿が見つかりませんでした。" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -32,13 +32,16 @@ export async function PATCH(req: Request) {
       console.error(updateError.message);
       return NextResponse.json(
         { message: "更新に失敗しました。" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ id, checked: newchecked });
   } catch (err: any) {
     console.error("PATCH Error:", err.message);
-    return NextResponse.json({ message: "不正なリクエストです。" }, { status: 400 });
+    return NextResponse.json(
+      { message: "不正なリクエストです。" },
+      { status: 400 },
+    );
   }
 }

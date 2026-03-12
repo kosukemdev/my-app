@@ -12,7 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 // 日付部分だけを比較するヘルパー関数
 const isSameDate = (date1: string, date2: string): boolean => {
@@ -40,9 +40,9 @@ export default function PostList({
       "/works/daily-report/api/posts",
       (currentPosts: Post[] = []) =>
         currentPosts.map((p: any) =>
-          p.id === id ? { ...p, checked: !p.checked } : p
+          p.id === id ? { ...p, checked: !p.checked } : p,
         ),
-      false
+      false,
     );
 
     try {
@@ -61,9 +61,9 @@ export default function PostList({
         "/works/daily-report/api/posts",
         (currentPosts: Post[] = []) =>
           currentPosts.map((p: any) =>
-            p.id === id ? { ...p, checked: !p.checked } : p
+            p.id === id ? { ...p, checked: !p.checked } : p,
           ),
-        false
+        false,
       );
     }
   };
@@ -91,7 +91,7 @@ export default function PostList({
   return (
     <>
       <Select value={sortType} onValueChange={setSortType}>
-        <SelectTrigger className="w-[220px] ml-auto">
+        <SelectTrigger className="ml-auto w-[220px]">
           <SelectValue placeholder="並び替え" />
         </SelectTrigger>
 
@@ -113,7 +113,7 @@ export default function PostList({
           {sortedPosts.map((post) => (
             <div key={post.id} className="not-first:mt-2">
               <motion.div
-                className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition grid grid-cols-1"
+                className="grid grid-cols-1 rounded-lg border bg-white p-3 shadow-sm transition hover:shadow-md"
                 layout
                 whileHover={{ scale: 1.002 }}
               >
@@ -123,7 +123,7 @@ export default function PostList({
                     {post.tags?.map((t: string, i: number) => (
                       <span
                         key={`${t}-${i}`}
-                        className="text-sm bg-gray-100 px-2 py-1 rounded-full mr-2 inline-block"
+                        className="mr-2 inline-block rounded-full bg-gray-100 px-2 py-1 text-sm"
                       >
                         #{t}
                       </span>
@@ -144,16 +144,16 @@ export default function PostList({
                 </Link>
               </motion.div>
               {session ? (
-                <div className="flex justify-end gap-2 mt-1">
+                <div className="mt-1 flex justify-end gap-2">
                   <Link
                     href={`/works/daily-report/${post.id}/edit`}
-                    className="text-sm bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
+                    className="rounded bg-yellow-500 px-4 py-2 text-sm text-white transition hover:bg-yellow-600"
                   >
                     日報を編集
                   </Link>
                   <Link
                     href={`/works/daily-report/${post.id}/delete`}
-                    className="text-sm bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                    className="rounded bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
                   >
                     削除
                   </Link>
@@ -163,7 +163,7 @@ export default function PostList({
                   {showCheckButton && (
                     <button
                       onClick={() => toggleCheck(post.id)}
-                      className={`hover:text-red-600 transition ${post.checked ? "text-red-600" : "text-gray-400"}`}
+                      className={`transition hover:text-red-600 ${post.checked ? "text-red-600" : "text-gray-400"}`}
                     >
                       {post.checked ? "確認済み" : "未確認"}
                     </button>
