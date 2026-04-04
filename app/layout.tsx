@@ -16,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kosuke Masaki Portfolio",
-  description: "正木洸介のポートフォリオサイトです。",
+  title: "正木洸介 | Frontend Engineer Portfolio",
+  description:
+    "未経験からフロントエンドエンジニア転職を目指す正木洸介のポートフォリオ。React / Next.js を使ったWebアプリ作品や経歴、スキルを掲載しています。",
 };
 
 export default function RootLayout({

@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
 import { Post, PostRow } from "@/app/works/daily-report/types/post";
 
+const toPost = (row: PostRow): Post => ({
+  id: row.id,
+  title: row.title,
+  content: row.content,
+  tags: row.tags ?? [],
+  status: row.status ?? "draft",
+  createdAt: row.created_at,
+  updatedAt: row.updated_at ?? null,
+  checked: row.checked ?? false,
+});
+
 export async function GET(
   _req: Request,
   { params }: { params: { id: string } },
@@ -24,16 +35,7 @@ export async function GET(
 
   const row = data as PostRow;
 
-  const post: Post = {
-    id: row.id,
-    title: row.title,
-    content: row.content,
-    tags: row.tags ?? [],
-    status: row.status ?? "draft",
-    createdAt: row.created_at,
-    updatedAt: row.updated_at ?? null,
-    checked: row.checked ?? false,
-  };
+  const post = toPost(row);
 
   return NextResponse.json(post);
 }
@@ -82,22 +84,16 @@ export async function PUT(
     const row = data as PostRow;
 
     // フロント用のPost型に変換
-    const post: Post = {
-      id: row.id,
-      title: row.title,
-      content: row.content,
-      tags: row.tags ?? [],
-      status: row.status ?? "draft",
-      createdAt: row.created_at,
-      updatedAt: row.updated_at ?? null,
-      checked: row.checked ?? false,
-    };
+    const post = toPost(row);
 
     // 作成した投稿を返す
     return NextResponse.json(post);
-  } catch (err: any) {
+  } catch (err: unknown) {
     // エラー時の処理
-    console.error("PUT Error:", err.message);
+    console.error(
+      "PUT Error:",
+      err instanceof Error ? err.message : "Unknown error",
+    );
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }

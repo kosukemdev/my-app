@@ -22,7 +22,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between bg-[#455698] px-4 py-4 text-gray-100 shadow-md ${isOpen ? "h-auto" : "h-16"}`}
+      className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-white/10 bg-[#1f3258]/95 px-4 py-4 text-gray-100 shadow-md backdrop-blur ${isOpen ? "h-auto" : "h-16"}`}
     >
       {/* サイト名 */}
 
@@ -82,7 +82,7 @@ export default function Header() {
             href="/login"
             className="block cursor-pointer rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
           >
-            ログイン
+            管理者ログイン
           </Link>
         )}
       </nav>
@@ -109,7 +109,7 @@ export default function Header() {
 
       {/* モバイルメニュー */}
       <nav
-        className={`absolute top-16 left-0 flex w-full flex-col items-center overflow-hidden bg-[#455698] py-4 transition-all duration-300 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+        className={`absolute top-16 left-0 flex w-full flex-col items-center overflow-hidden bg-[#1f3258]/95 py-4 transition-all duration-300 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
         <Link
           href="/"
@@ -149,7 +149,7 @@ export default function Header() {
             href="/login"
             className="block rounded bg-gray-100 px-4 py-1 font-medium text-[#455698] transition-colors duration-300 hover:bg-gray-200"
           >
-            ログイン
+            管理者ログイン
           </Link>
         )}
       </nav>

@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import { supabase } from "@/app/works/daily-report/lib/supabaseClient";
 import { Post, PostRow } from "@/app/works/daily-report/types/post";
 
+const toPost = (row: PostRow): Post => ({
+  id: row.id,
+  title: row.title,
+  content: row.content,
+  tags: row.tags ?? [],
+  status: row.status ?? "draft",
+  createdAt: row.created_at,
+  updatedAt: row.updated_at ?? null,
+  checked: row.checked ?? false,
+});
+
 export async function GET() {
   // supabaseから直接投稿データとエラー判定を取得
   const { data, error } = await supabase
@@ -17,17 +28,7 @@ export async function GET() {
 
   // postsの定義(PostRow型をPost[]型に変換している)
   // フロントで使うPost型に変換
-  const posts: Post[] =
-    data?.map((p: PostRow) => ({
-      id: p.id,
-      title: p.title,
-      content: p.content,
-      tags: p.tags ?? [],
-      status: p.status ?? "draft",
-      createdAt: p.created_at,
-      updatedAt: p.updated_at ?? null,
-      checked: p.checked ?? false,
-    })) ?? [];
+  const posts: Post[] = data?.map((p: PostRow) => toPost(p)) ?? [];
 
   // フロントエンド用に成型した投稿一覧を返す
   return NextResponse.json(posts);
@@ -72,24 +73,17 @@ export async function POST(req: Request) {
     const row = data as PostRow;
 
     // rowをPost型に変換し、投稿postを生成
-    const post: Post = {
-      id: row.id,
-      title: row.title,
-      content: row.content,
-      tags: row.tags ?? [],
-      status: row.status ?? "draft",
-      createdAt: row.created_at,
-      // この時点ではnullの場合もある
-      updatedAt: row.updated_at ?? null,
-      checked: row.checked ?? false,
-    };
+    const post = toPost(row);
 
     // 投稿postとステータス201を返す
     return NextResponse.json(post, { status: 201 });
-    // エラーの場合　anyはよくない気もする
-  } catch (err: any) {
+    // エラーの場合
+  } catch (err: unknown) {
     // エラーメッセージ
-    console.error("POST Error:", err.message);
+    console.error(
+      "POST Error:",
+      err instanceof Error ? err.message : "Unknown error",
+    );
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }

@@ -36,14 +36,12 @@ export default function PostList({
   const { data: session } = useSession();
 
   const toggleCheck = async (id: string) => {
-    mutate(
-      "/works/daily-report/api/posts",
-      (currentPosts: Post[] = []) =>
-        currentPosts.map((p: any) =>
-          p.id === id ? { ...p, checked: !p.checked } : p,
-        ),
-      false,
-    );
+    const updateCache = (currentPosts: Post[] = []) =>
+      currentPosts.map((post) =>
+        post.id === id ? { ...post, checked: !post.checked } : post,
+      );
+
+    mutate("/works/daily-report/api/posts", updateCache, false);
 
     try {
       const res = await fetch("/works/daily-report/api/posts/check", {
@@ -57,14 +55,7 @@ export default function PostList({
       mutate("/works/daily-report/api/posts");
     } catch (error) {
       console.error(error);
-      mutate(
-        "/works/daily-report/api/posts",
-        (currentPosts: Post[] = []) =>
-          currentPosts.map((p: any) =>
-            p.id === id ? { ...p, checked: !p.checked } : p,
-          ),
-        false,
-      );
+      mutate("/works/daily-report/api/posts", updateCache, false);
     }
   };
 

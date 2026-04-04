@@ -12,8 +12,7 @@ type Props = {
 export function MoodItem({ log, isToday }: Props) {
   const [editNote, setEditNote] = useState("");
   const [editMood, setEditMood] = useState<MoodLog["mood"]>(3);
-  const { logs, deleteLog, updateLog, editingId, setEditingId } =
-    useMoodStore();
+  const { deleteLog, updateLog, editingId, setEditingId } = useMoodStore();
 
   const moodLabel = {
     1: "😞",

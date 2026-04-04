@@ -37,8 +37,11 @@ export async function PATCH(req: Request) {
     }
 
     return NextResponse.json({ id, checked: newchecked });
-  } catch (err: any) {
-    console.error("PATCH Error:", err.message);
+  } catch (err: unknown) {
+    console.error(
+      "PATCH Error:",
+      err instanceof Error ? err.message : "Unknown error",
+    );
     return NextResponse.json(
       { message: "不正なリクエストです。" },
       { status: 400 },
