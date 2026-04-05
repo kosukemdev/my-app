@@ -25,17 +25,17 @@ export default function TagInput({ value = [], onChange }: TagInputProps) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 rounded border p-2">
+    <div className="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
       {value.map((tag) => (
         <span
           key={tag}
-          className="flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-blue-700"
+          className="flex items-center gap-1 rounded-full bg-sky-100 px-3 py-1 text-sky-700"
         >
           #{tag}
           <button
             type="button"
             onClick={() => removeTag(tag)}
-            className="cursor-pointer text-sm"
+            className="cursor-pointer text-sm text-sky-700/80 transition hover:text-sky-900"
           >
             ✕
           </button>
@@ -47,7 +47,7 @@ export default function TagInput({ value = [], onChange }: TagInputProps) {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="タグを入力してEnter"
-        className="min-w-[120px] flex-grow outline-none"
+        className="min-w-[160px] flex-grow bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
       />
     </div>
   );

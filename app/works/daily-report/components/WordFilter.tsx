@@ -26,13 +26,15 @@ export default function WordFilter({
   }, [inputValue, onChange, debounceMs]);
 
   return (
-    <input
-      aria-label="検索"
-      type="text"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      placeholder="キーワード検索"
-      className="rounded border px-3 py-1 text-sm focus:outline-none md:text-base"
-    />
+    <div className="relative">
+      <input
+        aria-label="検索"
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="タイトルや本文で検索"
+        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 md:text-base"
+      />
+    </div>
   );
 }

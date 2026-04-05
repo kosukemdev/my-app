@@ -7,7 +7,7 @@ import { useState } from "react";
 import PostList from "./components/PostList";
 import TagFilter from "./components/TagFilter";
 import WordFilter from "./components/WordFilter";
-import { FileText } from "lucide-react";
+import { FileText, PenSquare, Search, Tags } from "lucide-react";
 import { Post } from "./types/post";
 import { useSession } from "next-auth/react";
 
@@ -51,65 +51,119 @@ export default function DailyReportListPage() {
         )
       : filteredPosts;
 
+  const totalPublishedCount = posts?.filter((p) => p.status === "published")
+    .length;
+
   return (
-    <div className="max-w-3xl space-y-4 p-6 mx-auto">
-      <div className="mb-6 items-center justify-between md:flex">
-        <h1 className="text-2xl font-bold">業務日報</h1>
-        <div className="mt-4 flex items-center gap-4 md:mt-0">
-          <WordFilter
-            value={searchQuery}
-            onChange={setSearchQuery}
-            debounceMs={300}
-          />
-          {session && (
-            <Link
-              href="/works/daily-report/drafts"
-              className="mr-0 ml-auto flex cursor-pointer items-center rounded bg-gray-200 px-3 py-1 text-sm text-nowrap transition hover:bg-gray-300"
-            >
-              <FileText className="mr-1 inline-block h-4 w-4" />
-              下書き一覧へ
-            </Link>
-          )}
+    <div className="mx-auto min-h-screen max-w-5xl bg-[radial-gradient(circle_at_top,_rgba(191,219,254,0.35),_transparent_42%),linear-gradient(180deg,_#f8fbff_0%,_#eef4ff_48%,_#ffffff_100%)] px-4 py-8 sm:px-6 lg:px-8">
+      <section className="overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white/80 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
+        <div className="border-b border-slate-200/80 bg-[linear-gradient(135deg,_rgba(219,234,254,0.9),_rgba(255,255,255,0.75))] px-6 py-8 sm:px-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-sm font-medium tracking-[0.24em] text-slate-500 uppercase">
+                Daily Report
+              </p>
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+                業務日報を見やすく、探しやすく
+              </h1>
+              <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
+                提出済みの日報を一覧で確認しながら、タグやキーワードで必要な記録にすばやくたどり着けます。
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[360px]">
+              <div className="rounded-2xl border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p className="text-xs font-medium tracking-[0.2em] text-slate-500 uppercase">
+                  Published
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  {totalPublishedCount || 0}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p className="text-xs font-medium tracking-[0.2em] text-slate-500 uppercase">
+                  Search
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  {searchedPosts?.length || 0}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p className="text-xs font-medium tracking-[0.2em] text-slate-500 uppercase">
+                  Tags
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  {allTags.length}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <TagFilter
-        allTags={allTags}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-      />
-      {session && (
-        <Link
-          href="/works/daily-report/new"
-          className="rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
-        >
-          + 日報を書く
-        </Link>
-      )}
-      <div className="mt-2 text-sm text-gray-600">
-        {selectedTags.length > 0 || searchQuery ? (
-          <>
-            検索結果:{" "}
-            <span className="font-semibold">{searchedPosts?.length || 0}</span>
-            件
-            {posts && (
-              <>
-                {" "}
-                / 全
-                <span className="font-semibold">
-                  {posts.filter((p) => p.status === "published").length}件
-                </span>
-              </>
+
+        <div className="space-y-6 px-6 py-6 sm:px-8 sm:py-8">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="grid flex-1 gap-4 lg:grid-cols-[minmax(0,1fr)_auto]">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <div className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-700">
+                  <Search className="h-4 w-4 text-sky-600" />
+                  キーワード検索
+                </div>
+                <WordFilter
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  debounceMs={300}
+                />
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <div className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-700">
+                  <Tags className="h-4 w-4 text-sky-600" />
+                  タグ絞り込み
+                </div>
+                <TagFilter
+                  allTags={allTags}
+                  selectedTags={selectedTags}
+                  setSelectedTags={setSelectedTags}
+                />
+              </div>
+            </div>
+
+            {session && (
+              <div className="flex flex-col gap-3 sm:flex-row xl:flex-col">
+                <Link
+                  href="/works/daily-report/new"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-700"
+                >
+                  <PenSquare className="h-4 w-4" />
+                  日報を書く
+                </Link>
+                <Link
+                  href="/works/daily-report/drafts"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                >
+                  <FileText className="h-4 w-4" />
+                  下書き一覧へ
+                </Link>
+              </div>
             )}
-          </>
-        ) : (
-          <>
-            全
-            <span className="font-semibold">{searchedPosts?.length || 0}</span>
-            件
-          </>
-        )}
-      </div>
-      <PostList posts={searchedPosts || []} showCheckButton={true} />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-3 text-sm text-slate-600">
+            <span className="font-medium text-slate-900">
+              {selectedTags.length > 0 || searchQuery
+                ? `検索結果 ${searchedPosts?.length || 0} 件`
+                : `公開中 ${searchedPosts?.length || 0} 件`}
+            </span>
+            {totalPublishedCount !== undefined && (
+              <span>全 {totalPublishedCount} 件</span>
+            )}
+            {selectedTags.length > 0 && (
+              <span>選択タグ: {selectedTags.join(" / ")}</span>
+            )}
+            {searchQuery.trim() && <span>キーワード: {searchQuery.trim()}</span>}
+          </div>
+
+          <PostList posts={searchedPosts || []} showCheckButton={true} />
+        </div>
+      </section>
     </div>
   );
 }

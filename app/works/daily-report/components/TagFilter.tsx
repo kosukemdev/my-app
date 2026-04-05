@@ -18,36 +18,34 @@ export default function TagFilter({
   };
 
   return (
-    <div className="mb-4 flex flex-wrap gap-2">
-      <div className="flex space-x-2 overflow-x-scroll md:overflow-auto">
+    <div className="flex flex-wrap gap-2">
+      <button
+        onClick={() => setSelectedTags([])}
+        className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+          selectedTags.length === 0
+            ? "border-slate-900 bg-slate-900 text-white"
+            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-100"
+        }`}
+      >
+        全て
+      </button>
+      <div className="flex flex-1 flex-wrap gap-2 overflow-x-auto">
         {allTags.map((tag, i) => (
           <button
             key={`${tag}-${i}`}
             onClick={() => {
               toggleTags(tag);
             }}
-            // 折り返さず、スクロールさせるスタイルを追加
-            className={`rounded-full border px-3 py-1 text-sm transition ${
+            className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
               selectedTags.includes(tag)
-                ? "border-blue-500 bg-blue-500 text-white"
-                : "border-gray-300 bg-gray-100 hover:bg-gray-200"
+                ? "border-sky-500 bg-sky-500 text-white"
+                : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-100"
             }`}
           >
             {tag}
           </button>
         ))}
       </div>
-
-      <button
-        onClick={() => setSelectedTags([])}
-        className={`rounded-full border px-3 py-1 text-sm transition ${
-          selectedTags.length === 0
-            ? "border-blue-500 bg-blue-500 text-white"
-            : "border-gray-300 bg-gray-100 hover:bg-gray-200"
-        }`}
-      >
-        全て
-      </button>
     </div>
   );
 }
